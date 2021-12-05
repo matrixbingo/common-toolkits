@@ -3,6 +3,10 @@ import isJSON from '@stdlib/assert-is-json';
 import isJSONObj from 'isjsonobj';
 import { isInt } from './string-util';
 
+export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
+
+export const isVoid = (value: unknown) => value === undefined || value === null || value === '';
+
 const DataUtil = {
 
   result: {

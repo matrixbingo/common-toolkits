@@ -61,3 +61,12 @@ export const equals = (arr: string | any[], target: string | any[]) => {
 export const isNotEmpty = (arr: any): boolean => {
   return arr && !isEmpty(arr) && arr?.length > 0;
 };
+
+/**
+ * @param list [1,2,3,4]
+ * @param arr [1,2]
+ * @returns [3,4]
+ */
+export const omit = <T extends number | string>(list: T[], arr: T[]) => {
+  return list.filter((i) => !arr.includes(i));
+};

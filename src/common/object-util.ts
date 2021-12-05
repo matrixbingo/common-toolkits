@@ -2,12 +2,8 @@
 import lodash, { isArray, isEmpty, isObject, isString } from 'lodash';
 import * as ArrayUtil from './array-util';
 import Immutable from 'immutable';
-
-export type ObjectType = Record<number|string, unknown> | object;
-
-export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
-
-export const isVoid = (value: unknown) => value === undefined || value === null || value === '';
+import DataUtil, { isVoid } from './data-util';
+import { ObjectType } from './transform-util';
 
 export const equals = (object1: object, object2: object) => {
   return lodash.isEqual(object1, object2);
@@ -59,39 +55,6 @@ export const toJsonSring = (value: string) => {
   return (isString(value) && !isEmpty(value) ? JSON.stringify(JSON.parse(value), null, 2) : JSON.stringify(value, null, 2));
 };
 
-/** *
-   * JSON 格式转换 select等组件用
-   * objs: [{type: '1', tag:'aa'}, {type: '2', tag:'bb'}] 或 {1:aa, 2:bb}
-   * formJson: {id: 'type', name: 'tag'}
-   * return : [{id: '1', name:'aa'}, {id: '2', name:'bb'}]
-   */
-export const transformJson = (objs: ObjectType, formJson: Record<string, string>) => {
-  const rs: any[] = [];
-  if (isArray(objs)) {
-    for (let i = 0; i < objs.length; i++) {
-      const obj = objs[i];
-      const item = {};
-      lodash.forIn(formJson, (v, k) => {
-        item[k] = obj[v];
-      });
-      rs.push(item);
-    }
-    return rs;
-  } if (isObject(objs)) {
-    lodash.forIn(objs, (value, key) => {
-      const item = {};
-      lodash.forIn(formJson, (v, k) => {
-        if (k === 'id') {
-          item[v] = key;
-        } else if (k === 'name') {
-          item[v] = value;
-        }
-      });
-      rs.push(item);
-    });
-    return rs;
-  }
-};
 /**
  * options : [{ id: '1', name: '单次' },{ id: '2', name: '按天' }]
  * key: id
@@ -113,4 +76,34 @@ export const cleanObject = (object: { [key: string]: unknown }) => {
     }
   });
   return result;
+};
+
+export const getField = (item: Record<string | number, any>, path: string) => {
+  if (isString(item) || !item || (item && !path)) return item;
+  if (path.includes('.')) {
+    const keys: string[] = path.split('.');
+    try {
+      if (keys.length === 1) return item[path];
+      return keys.reduce((obj, key) => obj[DataUtil.unknown.parseValue(key)], item);
+    } catch (e) {
+      console.warn('ObjectUtil.getField', item, path);
+    }
+    return item;
+  }
+  return item[path];
+};
+
+/**
+ * 支持path路径
+ * @param obj { a: "aa", b: "bb", c: { c1: "c11", c2: "c12" } }
+ * @param format: {value: "a", label: "c.c1"}
+ * @returns return : {value: "aa", label: "c11"}
+ */
+ export const omitFormat = (obj: any, format: Record<string, string>) => {
+  const item = {};
+  Object.keys(format).forEach((k) => {
+    const v = format[k];
+    item[k] = getField(obj, v);
+  });
+  return item;
 };
