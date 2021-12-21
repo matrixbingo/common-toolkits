@@ -19,9 +19,9 @@ export const isInt = (val: string): Boolean => {  //! isNaN(parseInt(previous))
   // },
 
 /**
-     * 中英文逗号，分号，分割
-     * @param input
-     */
+ * 中英文逗号，分号，分割
+ * @param input
+ */
 export const splitByComma = (input: string) => {
   const arr = input.split(/[\n\s+,，；;]/g);
   lodash.remove(arr, (i) => {
@@ -44,11 +44,12 @@ export const splitToNumberArray = (input: string, key = ','): (number)[] => {
   }
   return input?.split(key)?.map((v) => parseInt(v, 10));
 };
-  /**
-     * 字符串转数组,去重，排序
-     * @param input
-     * @param key
-     */
+
+/**
+ * 字符串转数组,去重，排序
+ * @param input
+ * @param key
+ */
 export const splitToNumberArrayUniqueSort = (input: string, key = ','): (number)[] => {
   const arr = splitToNumberArray(input, key);
   if (lodash.isEmpty(arr)) {
@@ -58,11 +59,11 @@ export const splitToNumberArrayUniqueSort = (input: string, key = ','): (number)
 };
 
 /**
-   * 字符串根据分隔符转数组, 没有分隔符返回[str]
-   * @param str
-   * @param sign
-   * @returns
-   */
+ * 字符串根据分隔符转数组, 没有分隔符返回[str]
+ * @param str
+ * @param sign
+ * @returns
+ */
 export const toArrayBySeparator = (str: string, separator = ',') => {
   return str.includes(separator) ? str.split(separator) : Array.prototype.concat.call([], str);
 };
