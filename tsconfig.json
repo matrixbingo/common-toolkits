@@ -1,32 +1,20 @@
-    {
+{
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "lib": ["es6", "esnext", "dom"],
-    "sourceMap": true,
-    "allowJs": true,
-    "jsx": "preserve",
     "moduleResolution": "node",
-    "rootDir": ".",
-    "forceConsistentCasingInFileNames": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "noImplicitAny": false,
-    "experimentalDecorators": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
     "importHelpers": true,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "sourceMap": true,
     "baseUrl": "./",
+    "strict": true,
     "paths": {
       "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"]
+      "@@/*": ["src/.umi/*"],
+      "common-toolkits": ["./dist"]
     },
-    "allowSyntheticDefaultImports": true,
-    "suppressImplicitAnyIndexErrors":true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": [
     "node_modules",
@@ -36,7 +24,7 @@
     "typings",
     "**/__test__",
     "test",
-    "tests",
-    "docs"
+    "docs",
+    "tests"
   ]
 }

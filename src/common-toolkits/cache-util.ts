@@ -1,4 +1,4 @@
-export const getLocalStorageData = (storageCode: string, defaultData: Record<string|number, unknown>) => {
+const getLocalStorageData = (storageCode: string, defaultData: Record<string|number, unknown>) => {
   if (window.localStorage) {
     let result = {};
     const data = window.localStorage.getItem(storageCode);
@@ -14,9 +14,14 @@ export const getLocalStorageData = (storageCode: string, defaultData: Record<str
   return null;
 };
 
-export const setLocalStorageData = (storageCode: string, storageData: Record<string|number, unknown>) => {
+const setLocalStorageData = (storageCode: string, storageData: Record<string|number, unknown>) => {
   if (window.localStorage) {
     window.localStorage.removeItem(storageCode);
     window.localStorage.setItem(storageCode, JSON.stringify(storageData));
   }
+};
+
+export default {
+  getLocalStorageData,
+  setLocalStorageData
 };

@@ -1,14 +1,14 @@
 import lodash, { isObject, isEmpty } from 'lodash';
 import isJSON from '@stdlib/assert-is-json';
 import isJSONObj from 'isjsonobj';
-import { isInt } from './string-util';
+import StringUtil from './string-util';
 
-export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
+export default {
+  
+  isVoid:  (value: unknown) => value === undefined || value === null || value === '' || value === 'undefined' || value === 'null',
 
-export const isVoid = (value: unknown) => value === undefined || value === null || value === '';
-
-const DataUtil = {
-
+  isFalsy:  (value: unknown) => (value === 0 ? false : !value),
+  
   result: {
     format: (data: Record<string, string> | Array<Record<string, string>>, format: Record<string, any>): Record<string, string> | Array<Record<string, string>> => {
       const toObject = (obj: Record<string, string>, key: string, defaultValue: any) => {
@@ -44,7 +44,7 @@ const DataUtil = {
       if (lodash.isNumber(value)) {
         return value;
       }
-      if (lodash.isString(value) && isInt(value)) {
+      if (lodash.isString(value) && StringUtil.isInt(value)) {
         return parseInt(value, 10);
       }
       return value.toString();
@@ -93,7 +93,4 @@ const DataUtil = {
       return maxLevel;
     },
   },
-
 };
-
-export default DataUtil;

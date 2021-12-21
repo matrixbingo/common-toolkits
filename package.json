@@ -1,6 +1,6 @@
 {
   "name": "common-toolkits",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
@@ -18,11 +18,6 @@
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/matrixbingo/common-toolkits",
-    "branch": "main"
-  },
   "lint-staged": {
     "*.{js,jsx,less,md,json}": [
       "prettier --write"
@@ -33,31 +28,24 @@
   },
   "dependencies": {
     "@stdlib/assert-is-json": "^0.0.7",
+    "@types/lodash": "^4.14.170",
     "immutable": "^4.0.0",
     "isjsonobj": "^1.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "query-string": "^7.0.1",
-    "typescript": "^4.5.2"
+    "query-string": "^7.0.1"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.177",
     "@umijs/test": "^3.0.5",
-    "antd": "^4.17.2",
-    "babel-eslint": "10.1.0",
-    "dumi": "^1.1.0",
-    "eslint": "7.10.0",
-    "eslint-plugin-babel": "5.3.1",
-    "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-jsx-a11y": "6.4.1",
-    "eslint-plugin-react": "7.21.5",
-    "eslint-plugin-react-hooks": "4.1.2",
-    "father-build": "^1.19.1",
+    "antd": "^4.17.4",
+    "common-toolkits": "0.0.6",
+    "dumi": "^1.0.14",
+    "father-build": "^1.17.2",
     "gh-pages": "^3.0.0",
     "lint-staged": "^10.0.7",
-    "prettier": "^1.19.1",
-    "react": "^16.12.0",
-    "yorkie": "^2.0.0"
+    "prettier": "^2.2.1",
+    "yorkie": "^2.0.0",
+    "react": "^17.0.2"
   },
   "license": "MIT"
 }
