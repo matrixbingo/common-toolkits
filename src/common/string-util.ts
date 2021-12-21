@@ -31,10 +31,10 @@ export const splitByComma = (input: string) => {
 };
 
 /**
-     * 字符串转数组,支持中英文标点 1，2，3，4 =>[1,2,3,4]
-     * @param input
-     * @param key
-     */
+ * 字符串转数组,支持中英文标点 1，2，3，4 =>[1,2,3,4]
+ * @param input
+ * @param key
+ */
 export const splitToNumberArray = (input: string, key = ','): (number)[] => {
   if (lodash.isEmpty(input)) {
     return [];
