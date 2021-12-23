@@ -34,7 +34,7 @@ const omitFormat = (obj: Record<string, string>, format: Record<string, string>)
  */
 const select = {
   /**
-   * JSON 格式转换 select等组件用, 支持path路径
+   * JSON 格式转换 select等组件用, TODO 支持path路径
    * @param list  [{ a: "aa", b: "bb", c: { c1: "c11", c2: "c12" } }, { a: "AA", b: "BB", c: { c1: "C11", c2: "C12" } }]
    * @param format {value: "a", label: "c.c1"}
    * @returns [ {value: 'aa', label: 'c11'}, {value: 'AA', label: 'C11'} ]
@@ -47,7 +47,7 @@ const select = {
     return rs;
   },
   /**
-    * JSON 格式转换 select等组件用, 支持path路径
+    * JSON 格式转换 select等组件用, TODO 支持path路径
     * @param obj  {a: "aa", b: "bb"}
     * @param format {value: "label"}
     * @returns 

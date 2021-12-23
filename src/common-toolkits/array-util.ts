@@ -164,6 +164,11 @@ const filterItemListByPaths= <T>(arr: T[], path: string, values: any[]): T[] => 
   }, [] as T[]);
 };
 
+/**
+ * 判断是否在列表内
+ */
+const includes = (arr: any[], fun: (item: any) => boolean) => arr.some((i) => fun(i));
+
 export default {
   push,
   pushByIndex,
@@ -177,4 +182,5 @@ export default {
   omit,
   filterItemByPath,
   filterItemListByPaths,
+  includes,
 };

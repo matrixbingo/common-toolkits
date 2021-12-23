@@ -5,8 +5,8 @@ import DataUtil from './data-util';
 import { ObjectType } from './transform-util';
 import ArrayUtil from './array-util';
 
-const getField = (item: Record<string | number, any>, path: string) => {
-  if (isString(item) || !item || (item && !path)) return item;
+const getField = (item: Record<string | number, any> | string, path: string) => {
+  if (isString(item) || !item || !path) return item;
   if (path.includes('.')) {
     const keys: string[] = path.split('.');
     try {
