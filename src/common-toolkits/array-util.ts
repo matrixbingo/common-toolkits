@@ -1,18 +1,16 @@
 import { isArray, isEmpty, isFunction, isNumber, isString } from 'lodash';
 import ObjectUtil from './object-util';
-import DataUtil from './data-util';
-
-type raw = number | string;
+import DataUtil, { ObjectType, Raw } from './data-util';
 
 /**
- * 简单类型，去重push
+ * 默认简单类型，去重push
  */
-const push = <T extends raw>(arr: T[], ele: T): T[] => {
-  if (arr.indexOf(ele) === -1) {
-    arr.push(ele);
-  }
+const push = <T extends Raw | ObjectType>(arr: T[], ele: T, include?: (item: T) => boolean): T[] => {
+  const includeFun = include || (() => arr.indexOf(ele) === -1);
+  if (includeFun(ele)) arr.push(ele);
   return arr;
 };
+
 
 /**
  * 向指定index添加值
@@ -37,7 +35,7 @@ const pushByIndex = (arr: { [x: string]: any[]}, index: string | number, item: s
  * @param val (v) => v.a === 1
  * @returns [{b:2}]
  */
-const remove = <T extends raw | Record<any, any>>(arr: T[],  arg: T | ((val: T) => boolean)): Array<T> => {
+const remove = <T extends Raw | ObjectType>(arr: T[],  arg: T | ((val: T) => boolean)): Array<T> => {
   const removeByIndex = (list: Array<any>, item: any) => {
     const index = list.indexOf(item);
     if (index > -1) {
@@ -58,11 +56,11 @@ const remove = <T extends raw | Record<any, any>>(arr: T[],  arg: T | ((val: T) 
  * @param arr 
  * @returns 
  */
-const unique = <T>(arr: T[], getValue?: (val: any) => string) : Array<T> => {
-  if(getValue && isFunction(getValue)){
+const unique = <T>(arr: T[], customizer?: (val: any) => string) : Array<T> => {
+  if(customizer && isFunction(customizer)){
     const values = new Set();
     return arr.filter((i: any) => {
-      const value = getValue(i);
+      const value = customizer(i);
       if(!values.has(value)){
         values.add(value);
         return true;
@@ -123,7 +121,7 @@ const isNotEmpty = (arr: any): boolean => {
  * @param arr [1,2]
  * @returns ['a', 'b']
  */
-const pick = <T extends raw | Record<any, any>>(list: T[], arg: number[] | ((val: T) => boolean)): Array<T> => {
+const pick = <T extends Raw | ObjectType>(list: T[], arg: number[] | ((val: T) => boolean)): Array<T> => {
   if(isArray(arg)) return list.filter((_,i) => arg.includes(i));
   if(isFunction(arg)) return list.filter((i) => arg(i));
   return list;
@@ -135,7 +133,7 @@ const pick = <T extends raw | Record<any, any>>(list: T[], arg: number[] | ((val
  * @param arr [1,2]
  * @returns [3,4]
  */
-const omit = <T extends raw | Record<any, any>>(list: T[], arg: number[] | ((val: T) => boolean)): Array<T> => {
+const omit = <T extends Raw | Record<any, any>>(list: T[], arg: number[] | ((val: T) => boolean)): Array<T> => {
   if(isArray(arg)) return list.filter((_,i) => !arg.includes(i));
   if(isFunction(arg)) return list.filter((i) => !arg(i));
   return list;

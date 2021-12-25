@@ -1,80 +1,60 @@
 import { forIn, isArray, isObject } from 'lodash';
 import ObjectUtil from './object-util';
 import ArrayUtil from './array-util';
-
-export type Raw = string | number;
-
-export type ObjectType = Record<Raw, any>;
-
-export type ObjectTypeArray = Record<Raw, any>[];
-
-type SelectValueType = string | string[] | number | number[];
-
-type SelectType = {value: SelectValueType, label: Raw | any};
-
-type SelectDataSourceType = SelectType[];
-
-/**
- * 支持path路径
- * @param obj { a: "aa", b: "bb", c: { c1: "c11", c2: "c12" } }
- * @param format: {value: "a", label: "c.c1"}
- * @returns {value: "aa", label: "c11"}
- */
-const omitFormat = (obj: Record<string, string>, format: Record<string, string>): any => {
-  const item = {} as Record<string, string>;
-  Object.keys(format).forEach((k) => {
-    const v = format[k];
-    item[k] = ObjectUtil.getField(obj, v);
-  });
-  return item;
-};
+import { ObjectType } from './data-util';
 
 /**
  * to SelectDataSourceType
  */
 const select = {
+
   /**
-   * JSON 格式转换 select等组件用, TODO 支持path路径
+   * 支持path路径，
+   * @param obj { a: "aa", b: "bb", c: { c1: "c11", c2: "c12" } }
+   * @param format: {value: "a", label: "c.c1"}
+   * @returns {value: "aa", label: "c11"}
+   */
+  formatObject: <T extends ObjectType>(obj: ObjectType, format: Record<string, string>): T => {
+    const item = {} as ObjectType;
+    Object.keys(format).forEach((k) => {
+      const v = format[k];
+      item[k] = ObjectUtil.getField(obj, v);
+    });
+    return item as T;
+  },
+
+  /**
+   * JSON 格式转换 select等组件用
    * @param list  [{ a: "aa", b: "bb", c: { c1: "c11", c2: "c12" } }, { a: "AA", b: "BB", c: { c1: "C11", c2: "C12" } }]
    * @param format {value: "a", label: "c.c1"}
    * @returns [ {value: 'aa', label: 'c11'}, {value: 'AA', label: 'C11'} ]
    */
-  formatArray: (list: any[],  format: Record<string, string>): SelectDataSourceType => {
-    const rs: SelectDataSourceType = [];
+  formatArray: <T extends ObjectType>(list: ObjectType[],  format: Record<string, string>): T[] => {
+    const rs: T[] = [];
     if (Array.isArray(list) && list.length > 0) {
-      return list.reduce((arr, next) => ArrayUtil.push(arr, omitFormat(next, format)), rs);
+      return list.reduce((arr, next) => ArrayUtil.push<T>(arr as T[], select.formatObject<T>(next, format)), rs) as T[];
     }
     return rs;
   },
-  /**
-    * JSON 格式转换 select等组件用, TODO 支持path路径
-    * @param obj  {a: "aa", b: "bb"}
-    * @param format {value: "label"}
-    * @returns 
-    */
-  formatObject: (obj: Record<string, string>,  format: Record<string, string>): SelectDataSourceType => {
-    const item = {k: '', v: ''};
-    forIn(format, (value, key) => {
-      item.k = key;
-      item.v = value;
-    });
-    const rs: SelectDataSourceType = [];
-    if(isObject(obj)){
-      Object.keys(obj).forEach((k)=>{
-        const o: any = {};
-        o[item.k] = k;
-        o[item.v] = obj[k];
-        rs.push(o);
-      });
-    };
-    return rs;
-  },
+
   /** *
    * JSON 格式转换 select等组件用
    */
-  formatArrayAndObject : (objs: any, format: Record<string, string>): SelectDataSourceType => {
+  formatArrayOrObject :<T>(objs: any, format: Record<string, string>): T | T[]=> {
     return Array.isArray(objs)? select.formatArray(objs, format) : select.formatObject(objs, format);
   },
+
+  /**
+   * options : [{ id: '1', name: 'aa' },{ id: '2', name: 'bb' }]
+   * key: id, name 
+   * return :  [ '1':  { text: 'aa' },  '2': { text: 'bb' }]
+   */
+  transformSelect: (options: {[k: string]: any}[], key = 'id', name = 'name'): {[k: string | number]: any} => {
+    const valueEnum: {[k: string | number]: any} = {};
+    ArrayUtil.isNotEmpty(options) && options.forEach((i) => valueEnum[i[key]] = { text: i[name] });
+    return valueEnum;
+  },
+
 };
 
 /**
@@ -98,17 +78,6 @@ const  toArrByPaths = (arr: any[], paths: string[]): any => {
     rs[path] = toArrByPath(arr, path);
     return rs;
   }, {} as any);
-};
-
-/**
- * options : [{ id: '1', name: '单次' },{ id: '2', name: '按天' }]
- * key: id
- * return :  [ '1':  { text: '单次' },  '2': { text: '按天' }]
- */
-const transformSelect = (options: {[k: string]: any}[], key = 'id', name = 'name'): {[k: string | number]: any} => {
-  const valueEnum: {[k: string | number]: any} = {};
-  ArrayUtil.isNotEmpty(options) && options.forEach((i) => valueEnum[i[key]] = { text: i[name] });
-  return valueEnum;
 };
 
 /**
@@ -138,17 +107,21 @@ const nullToString = (data: Record<string, any> | Record<string, any>[]) => {
   return data;
 };
 
+const numberArrToStringArr = (arr: number[]): string[] => arr.map((i) => String(i));
+
+const stringArrToMumberArr = (arr: string[]): number[] => arr.map((i) => Number(i));
+
 /**
  * TODO 操作
  */
 const options = {};
 
 export default {
-  omitFormat,
   select,
   toArrByPath,
   toArrByPaths,
-  transformSelect,
   nullToString,
   options,
+  numberArrToStringArr,
+  stringArrToMumberArr
 };

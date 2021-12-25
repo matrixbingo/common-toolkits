@@ -2,22 +2,6 @@ import lodash from 'lodash';
 import qs from 'query-string';
 import ArrayUtil from './array-util';
 
-const isInt = (val: string): Boolean => {  //! isNaN(parseInt(previous))
-  const regPos = /^\d+(\.\d+)?$/; // 非负浮点数
-  const regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; // 负浮点数
-  if (regPos.test(val) || regNeg.test(val)) {
-    return true;
-  }
-  return false;
-};
-  // isFloat: (num: string): Boolean => {
-  //   const reg = new RegExp('^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$'); // 正浮点数
-  //   if (reg.test(num)) {
-  //     return true;
-  //   }
-  //   return false;
-  // },
-
 /**
  * 中英文逗号，分号，分割
  * @param input
@@ -44,11 +28,12 @@ const splitToNumberArray = (input: string, key = ','): (number)[] => {
   }
   return input?.split(key)?.map((v) => parseInt(v, 10));
 };
-  /**
-     * 字符串转数组,去重，排序
-     * @param input
-     * @param key
-     */
+
+/**
+   * 字符串转数组,去重，排序
+   * @param input
+   * @param key
+   */
 const splitToNumberArrayUniqueSort = (input: string, key = ','): (number)[] => {
   const arr = splitToNumberArray(input, key);
   if (lodash.isEmpty(arr)) {
@@ -58,11 +43,11 @@ const splitToNumberArrayUniqueSort = (input: string, key = ','): (number)[] => {
 };
 
 /**
-   * 字符串根据分隔符转数组, 没有分隔符返回[str]
-   * @param str
-   * @param sign
-   * @returns
-   */
+ * 字符串根据分隔符转数组, 没有分隔符返回[str]
+ * @param str
+ * @param sign
+ * @returns
+ */
 const toArrayBySeparator = (str: string, separator = ',') => {
   return str.includes(separator) ? str.split(separator) : Array.prototype.concat.call([], str);
 };
@@ -79,7 +64,6 @@ const omit = (value: string, limit = 10): string => {
 };
 
 export default {
-  isInt,
   splitByComma,
   splitToNumberArray,
   splitToNumberArrayUniqueSort,

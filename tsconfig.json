@@ -14,7 +14,8 @@
       "@@/*": ["src/.umi/*"],
       "common-toolkits": ["./dist"]
     },
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "suppressImplicitAnyIndexErrors": true,
   },
   "exclude": [
     "node_modules",
