@@ -1,26 +1,13 @@
 import moment, { Moment } from 'moment';
 import lodash from 'lodash';
-
-enum Days {Sun, Mon, Tue, Wed, Thu, Fri, Sat}
-
-enum Period {day, week, month, other}
-
-enum DateType {dateMoment, dateString}
-
-export type DateTypeInterface = Moment | string;
-
-const formatDate = {
-  SECONDS_FORMAT: 'YYYY-MM-DD HH:mm:ss',
-  SECONDS: 'YYYYMMDDHHmmss',
-  DAY_FORMAT: 'YYYY-MM-DD',
-};
+import { DateType, DateTypeInterface, FormatDate, Period } from './types';
 
 /**
  * 格式化输出当前时间
  * @param format 
  * @returns 
  */
-const currFormat = (format = formatDate.SECONDS_FORMAT) => {
+const currFormat = (format = FormatDate.SECONDS_FORMAT) => {
   return moment().format(format);
 };
 
@@ -29,10 +16,10 @@ const currFormat = (format = formatDate.SECONDS_FORMAT) => {
  * @returns 
  */
 const timeStamp = (): string => {
-  return currFormat(formatDate.SECONDS_FORMAT);
+  return currFormat(FormatDate.SECONDS_FORMAT);
 };
 
-const toMoment = (value: DateTypeInterface, format = formatDate.DAY_FORMAT): Moment => {
+const toMoment = (value: DateTypeInterface, format = FormatDate.DAY_FORMAT): Moment => {
   return moment.isMoment(value) ? value : moment(value, format);
 };
 
@@ -43,7 +30,7 @@ const toMoment = (value: DateTypeInterface, format = formatDate.DAY_FORMAT): Mom
  * @returns 
  */
 const range = (_period: Period, rest: {dateType?: DateType; beginDays?: number; format?: string }): Moment[] | string[] => {
-  const param = lodash.extend({ dateType: DateType.dateMoment, beginDays: 1, format: formatDate.DAY_FORMAT }, rest);
+  const param = lodash.extend({ dateType: DateType.dateMoment, beginDays: 1, format: FormatDate.DAY_FORMAT }, rest);
   const endDate = moment().subtract(1, 'd');
   let beginDate = moment().subtract(param.beginDays, 'd');
   if (_period === Period.week) {
@@ -62,7 +49,7 @@ const range = (_period: Period, rest: {dateType?: DateType; beginDays?: number; 
  * @param format 
  * @returns 
  */
-const diff = (beginDate: DateTypeInterface, endDate: DateTypeInterface, _period: Period, format = formatDate.DAY_FORMAT): number => {
+const diff = (beginDate: DateTypeInterface, endDate: DateTypeInterface, _period: Period, format = FormatDate.DAY_FORMAT): number => {
   const _beginDate = toMoment(beginDate, format);
   const _endDate = toMoment(endDate, format);
   if (_period === Period.day) {
@@ -79,17 +66,13 @@ const diff = (beginDate: DateTypeInterface, endDate: DateTypeInterface, _period:
  * @param format 
  * @returns 
  */
-const comparison = (beginDate: DateTypeInterface, endDate: DateTypeInterface, _period: Period, format = formatDate.DAY_FORMAT): boolean => {
+const comparison = (beginDate: DateTypeInterface, endDate: DateTypeInterface, _period: Period, format = FormatDate.DAY_FORMAT): boolean => {
   const _beginDate = toMoment(beginDate, format);
   const _endDate = toMoment(endDate, format);
   return _endDate.diff(_beginDate) > 0;
 };
 
 export default {
-  Days,
-  Period,
-  DateType,
-  formatDate,
   currFormat,
   timeStamp,
   toMoment,

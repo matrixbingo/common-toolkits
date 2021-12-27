@@ -6,3 +6,9 @@ export { default as CachetUtil } from './common-toolkits/cache-util';
 export { default as DataUtil } from './common-toolkits/data-util';
 export { default as TransformUtil } from './common-toolkits/transform-util';
 
+import type { Raw, ObjectType, ObjectTypeArray, DateTypeInterface } from './common-toolkits/types';
+import { Days, Period, DateType, FormatDate } from './common-toolkits/types';
+
+export type { Raw, ObjectType, ObjectTypeArray, DateTypeInterface}; 
+export { Days, Period, DateType, FormatDate}; 
+

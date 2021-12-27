@@ -1,7 +1,7 @@
 import { forIn, isArray, isObject } from 'lodash';
 import ObjectUtil from './object-util';
 import ArrayUtil from './array-util';
-import { ObjectType } from './data-util';
+import { ObjectType } from './types';
 
 /**
  * to SelectDataSourceType
@@ -118,10 +118,10 @@ const options = {};
 
 export default {
   select,
+  options,
   toArrByPath,
   toArrByPaths,
   nullToString,
-  options,
   numberArrToStringArr,
   stringArrToMumberArr
 };

@@ -1,13 +1,7 @@
-import lodash, { isObject, isEmpty, forEach } from 'lodash';
+import lodash, { isObject, isEmpty, forEach, isNumber, isBoolean, isString, isArray } from 'lodash';
 import isJSON from '@stdlib/assert-is-json';
 import isJSONObj from 'isjsonobj';
 import { ObjectUtil } from '..';
-
-export type Raw = string | number;
-
-export type ObjectType = Record<Raw, any>;
-
-export type ObjectTypeArray = Record<Raw, any>[];
 
 const pattern = {
   BinENG: /^[a-zA-Z][a-zA-Z0-9_]*$/,                  // 英文开头
@@ -18,10 +12,6 @@ const pattern = {
   float: /^(-?\d+)(\.\d+)?$/,
   
 };
-
-const isVoid =  (value: unknown) => value === undefined || value === null || value === '' || value === 'undefined' || value === 'null';
-
-const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 
 const result = {
   /**
@@ -106,6 +96,14 @@ const unknown = {
     if (lodash.isString(value) && unknown.isInt(value)) return parseInt(value, 10);
     return value.toString();
   },
+
+  
+  isVoid: (value: unknown) => value === undefined || value === null || value === '' || value === 'undefined' || value === 'null',
+
+  isFalsy: (value: unknown) => (value === 0 ? false : !value),
+
+  isValue: (value: any) => isNumber(value) || isBoolean(value) || isString(value) || isObject(value) || isArray(value) || !!value,
+
 };
 
 const tree = {
@@ -192,8 +190,6 @@ const input = {
 
 export default {
   pattern,
-  isVoid,
-  isFalsy,
   result,
   unknown,
   tree,

@@ -1,6 +1,7 @@
 import { isArray, isEmpty, isFunction, isNumber, isString } from 'lodash';
 import ObjectUtil from './object-util';
-import DataUtil, { ObjectType, Raw } from './data-util';
+import DataUtil from './data-util';
+import { ObjectType, Raw } from './types';
 
 /**
  * 默认简单类型，去重push
@@ -20,7 +21,7 @@ const push = <T extends Raw | ObjectType>(arr: T[], ele: T, include?: (item: T) 
  * @returns  [{a:['a']}, {b:['b', 'c']}]
  */
 const pushByIndex = (arr: { [x: string]: any[]}, index: string | number, item: string): void => {
-  item = isEmpty(item) || DataUtil.isVoid(item) ? '' : item;
+  item = isEmpty(item) || DataUtil.unknown.isVoid(item) ? '' : item;
   if (isEmpty(arr[index])) {
     arr[index] = [];
     arr[index].push(item);

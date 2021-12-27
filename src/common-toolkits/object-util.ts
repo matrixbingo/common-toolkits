@@ -1,8 +1,9 @@
 /* eslint-disable no-return-assign */
-import lodash, { clone, cloneDeep, isArray, isEmpty, isFunction, isObject, isString } from 'lodash';
+import { cloneDeep, isArray, isEmpty, isFunction, isObject, isString } from 'lodash';
 import Immutable from 'immutable';
-import DataUtil, { ObjectType } from './data-util';
+import DataUtil from './data-util';
 import ArrayUtil from './array-util';
+import { ObjectType } from './types';
 
 /**
  * 判断key在object内
@@ -125,11 +126,10 @@ const toJsonString = (value: string) => {
  * @returns 
  */
 const cleanObject = (object: Record<any, any> ) => {
-  // Object.assign({}, object)
   const result = { ...object };
   Object.keys(result).forEach((key) => {
     const value = result[key];
-    if (DataUtil.isVoid(value)) {
+    if (DataUtil.unknown.isVoid(value)) {
       delete result[key];
     }
     if(isObject(value)){
