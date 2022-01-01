@@ -5,6 +5,7 @@ export { default as StringUtil } from './common-toolkits/string-util';
 export { default as CachetUtil } from './common-toolkits/cache-util';
 export { default as DataUtil } from './common-toolkits/data-util';
 export { default as TransformUtil } from './common-toolkits/transform-util';
+export { default as FormatUtil } from './common-toolkits/format-util';
 export { default as UrlUtil } from './common-toolkits/url-util';
 export * from './common-toolkits/hooks';
 

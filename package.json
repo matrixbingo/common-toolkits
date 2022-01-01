@@ -1,6 +1,6 @@
 {
   "name": "common-toolkits",
-  "version": "0.1.7",
+  "version": "0.01.1",
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",

@@ -1,3 +1,5 @@
+import { isString } from 'lodash';
+
 /**
  * @param num
  * @param precision
@@ -48,7 +50,13 @@ const currency = (num: any, precision: number, separator: string): string => {
 const thousands = (num: string | number): string =>
   String(num).replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`);
 
+const json = (value: any) =>
+  isString(value)
+    ? JSON.stringify(JSON.parse(value), null, 2)
+    : JSON.stringify(value, null, 2);
+
 export default {
   currency,
   thousands,
+  json,
 };
