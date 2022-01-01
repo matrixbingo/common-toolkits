@@ -1,5 +1,4 @@
 import lodash from 'lodash';
-import qs from 'query-string';
 import ArrayUtil from './array-util';
 
 /**
@@ -19,7 +18,7 @@ const splitByComma = (input: string) => {
  * @param input
  * @param key
  */
-const splitToNumberArray = (input: string, key = ','): (number)[] => {
+const splitToNumberArray = (input: string, key = ','): number[] => {
   if (lodash.isEmpty(input)) {
     return [];
   }
@@ -30,11 +29,11 @@ const splitToNumberArray = (input: string, key = ','): (number)[] => {
 };
 
 /**
-   * 字符串转数组,去重，排序
-   * @param input
-   * @param key
-   */
-const splitToNumberArrayUniqueSort = (input: string, key = ','): (number)[] => {
+ * 字符串转数组,去重，默认排序
+ * @param input
+ * @param key
+ */
+const splitToNumberArrayUniqueSort = (input: string, key = ','): number[] => {
   const arr = splitToNumberArray(input, key);
   if (lodash.isEmpty(arr)) {
     return [];
@@ -49,25 +48,18 @@ const splitToNumberArrayUniqueSort = (input: string, key = ','): (number)[] => {
  * @returns
  */
 const toArrayBySeparator = (str: string, separator = ',') => {
-  return str.includes(separator) ? str.split(separator) : Array.prototype.concat.call([], str);
+  return str.includes(separator)
+    ? str.split(separator)
+    : Array.prototype.concat.call([], str);
 };
 
-const urlParams = (url: string): { [key: string]: any} => {
-  return qs.parse(url.split('?')[1]);
-};
-
-const omit = (value: string, limit = 10): string => {
-  if (value && value.length > limit + 3) {
-    return `${value.substring(0, limit)}...`;
-  }
-  return value;
-};
+const truncate = (value: string, limit = 10): string =>
+  lodash.truncate(value, { length: limit, omission: '...' });
 
 export default {
   splitByComma,
   splitToNumberArray,
   splitToNumberArrayUniqueSort,
   toArrayBySeparator,
-  urlParams,
-  omit,
+  truncate,
 };
