@@ -9,17 +9,12 @@ import { ObjectType, Raw } from './types';
  * @param value
  * @returns
  */
-const initArray = <T>(length: number = 1, value: T): Array<T> =>
-  Array(length).fill(value);
+const initArray = <T>(length: number = 1, value: T): Array<T> => Array(length).fill(value);
 
 /**
  * 默认简单类型，去重push
  */
-const push = <T extends Raw | ObjectType>(
-  arr: T[],
-  ele: T,
-  include?: (item: T) => boolean,
-): T[] => {
+const push = <T extends Raw | ObjectType>( arr: T[], ele: T, include?: (item: T) => boolean ): T[] => {
   const includeFun = include || (() => arr.indexOf(ele) === -1);
   if (includeFun(ele)) arr.push(ele);
   return arr;
@@ -32,11 +27,7 @@ const push = <T extends Raw | ObjectType>(
  * @param item c
  * @returns  [{a:['a']}, {b:['b', 'c']}]
  */
-const pushByIndex = (
-  arr: { [x: string]: any[] },
-  index: string | number,
-  item: string,
-): void => {
+const pushByIndex = ( arr: { [x: string]: any[] }, index: string | number, item: string ): void => {
   item = isEmpty(item) || DataUtil.unknown.isVoid(item) ? '' : item;
   if (isEmpty(arr[index])) {
     arr[index] = [];
@@ -52,10 +43,7 @@ const pushByIndex = (
  * @param val (v) => v.a === 1
  * @returns [{b:2}]
  */
-const remove = <T extends Raw | ObjectType>(
-  arr: T[],
-  arg: T | ((val: T) => boolean),
-): Array<T> => {
+const remove = <T extends Raw | ObjectType>( arr: T[], arg: T | ((val: T) => boolean) ): Array<T> => {
   const removeByIndex = (list: Array<any>, item: any) => {
     const index = list.indexOf(item);
     if (index > -1) {
@@ -98,9 +86,7 @@ const unique = <T>(arr: T[], customizer?: (val: T) => string): Array<T> => {
  */
 const uniqueSort = (arr: any): any[] => unique(arr).sort();
 
-const mapByKey = (list: { [K: string]: any }[], k = 'id') => {
-  return list.map((i) => i[k]);
-};
+const mapByKey = (list: { [K: string]: any }[], k = 'id') => list.map((i) => i[k]);
 
 /**
  * TODO 可替换
@@ -129,8 +115,7 @@ const equals = (arr: string | any[], target: string | any[]) => {
   return true;
 };
 
-const isNotEmpty = (arr: any): boolean =>
-  arr && !isEmpty(arr) && arr?.length > 0;
+const isNotEmpty = (arr: any): boolean => arr && !isEmpty(arr) && arr?.length > 0;
 
 /**
  * 根据下标的集合取子集，或自定义取
@@ -138,10 +123,7 @@ const isNotEmpty = (arr: any): boolean =>
  * @param arr [1,2]
  * @returns ['a', 'b']
  */
-const pick = <T extends Raw | ObjectType>(
-  list: T[],
-  arg: number[] | ((val: T) => boolean),
-): Array<T> => {
+const pick = <T extends Raw | ObjectType>( list: T[], arg: number[] | ((val: T) => boolean) ): Array<T> => {
   if (isArray(arg)) return list.filter((_, i) => arg.includes(i));
   if (isFunction(arg)) return list.filter((i) => arg(i));
   return list;
@@ -153,10 +135,7 @@ const pick = <T extends Raw | ObjectType>(
  * @param arr [1,2]
  * @returns [3,4]
  */
-const omit = <T extends Raw | Record<any, any>>(
-  list: T[],
-  arg: number[] | ((val: T) => boolean),
-): Array<T> => {
+const omit = <T extends Raw | Record<any, any>>( list: T[], arg: number[] | ((val: T) => boolean) ): Array<T> => {
   if (isArray(arg)) return list.filter((_, i) => !arg.includes(i));
   if (isFunction(arg)) return list.filter((i) => !arg(i));
   return list;
@@ -169,8 +148,7 @@ const omit = <T extends Raw | Record<any, any>>(
  * @param value 'a1'
  * @returns [{id: 'a1', name: 'n1'}]
  */
-const filterItemByPath = <T>(arr: T[], path: string, value: any): T[] =>
-  arr.filter((e) => value === ObjectUtil.getField(e, path));
+const filterItemByPath = <T>(arr: T[], path: string, value: any): T[] => arr.filter((e) => value === ObjectUtil.getField(e, path));
 
 /**
  * 根据path的对应的value集合，从arr里查找
@@ -179,11 +157,7 @@ const filterItemByPath = <T>(arr: T[], path: string, value: any): T[] =>
  * @param values ['a1', 'a2']
  * @returns [{id: 'a1', name: 'n1'}, {id: 'a2', name: 'n2'}]
  */
-const filterItemListByPaths = <T>(
-  arr: T[],
-  path: string,
-  values: any[],
-): T[] => {
+const filterItemListByPaths = <T>( arr: T[], path: string, values: any[] ): T[] => {
   return arr.reduce((rs, next) => {
     values.includes(ObjectUtil.getField(next, path)) && rs.push(next);
     return rs;
@@ -193,8 +167,7 @@ const filterItemListByPaths = <T>(
 /**
  * 判断是否在列表内
  */
-const includes = (arr: any[], fun: (item: any) => boolean) =>
-  arr.some((i) => fun(i));
+const includes = (arr: any[], fun: (item: any) => boolean) => arr.some((i) => fun(i));
 
 export default {
   push,
@@ -210,4 +183,5 @@ export default {
   filterItemByPath,
   filterItemListByPaths,
   includes,
+  initArray
 };
