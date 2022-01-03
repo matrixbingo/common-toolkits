@@ -50,10 +50,7 @@ const getParameterByName = (name: string): string => {
  * @param url
  * @returns
  */
-const extendParam = (
-  param: Record<string, string> = {},
-  url: string = window.location.href,
-): string => {
+const extendParam = ( param: Record<string, string> = {}, url: string = window.location.href ): string => {
   const host = url.trim().split('?')[0];
   const query = urlParams(url);
   const params = { ...query, ...param };

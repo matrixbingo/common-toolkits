@@ -7,9 +7,7 @@ import ArrayUtil from './array-util';
  */
 const splitByComma = (input: string) => {
   const arr = input.split(/[\n\s+,，；;]/g);
-  lodash.remove(arr, (i) => {
-    return lodash.isEmpty(i);
-  });
+  lodash.remove( arr, (i) => lodash.isEmpty(i) );
   return arr;
 };
 
@@ -48,13 +46,10 @@ const splitToNumberArrayUniqueSort = (input: string, key = ','): number[] => {
  * @returns
  */
 const toArrayBySeparator = (str: string, separator = ',') => {
-  return str.includes(separator)
-    ? str.split(separator)
-    : Array.prototype.concat.call([], str);
+  return str.includes(separator) ? str.split(separator) : Array.prototype.concat.call([], str);
 };
 
-const truncate = (value: string, limit = 10): string =>
-  lodash.truncate(value, { length: limit, omission: '...' });
+const truncate = (value: string, limit = 10): string => lodash.truncate(value, { length: limit, omission: '...' });
 
 export default {
   splitByComma,

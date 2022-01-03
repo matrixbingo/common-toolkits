@@ -1,4 +1,4 @@
-import { forIn, isArray, isObject } from 'lodash';
+import { isArray, isObject } from 'lodash';
 import ObjectUtil from './object-util';
 import ArrayUtil from './array-util';
 import { ObjectType } from './types';
@@ -40,9 +40,7 @@ const select = {
   /** *
    * JSON 格式转换 select等组件用
    */
-  formatArrayOrObject :<T>(objs: any, format: Record<string, string>): T | T[]=> {
-    return Array.isArray(objs)? select.formatArray(objs, format) : select.formatObject(objs, format);
-  },
+  formatArrayOrObject :<T>(objs: any, format: Record<string, string>): T | T[] => Array.isArray(objs)? select.formatArray(objs, format) : select.formatObject(objs, format),
 
   /**
    * options : [{ id: '1', name: 'aa' },{ id: '2', name: 'bb' }]
@@ -63,9 +61,7 @@ const select = {
  * @path id
  * @returns ['a1', 'a2']
  */
-const toArrByPath = (arr: any[], path: string): any[] => {
-  return arr.reduce((list, next) => ArrayUtil.push(list, ObjectUtil.getField(next, path)), []);
-};
+const toArrByPath = (arr: any[], path: string): any[] =>  arr.reduce((list, next) => ArrayUtil.push(list, ObjectUtil.getField(next, path)), []);
 
 /**
  * 与toArrByPath类似，依赖toArrByPath,输出多组

@@ -1,12 +1,5 @@
 /* eslint-disable no-return-assign */
-import lodash, {
-  cloneDeep,
-  isArray,
-  isEmpty,
-  isFunction,
-  isObject,
-  isString,
-} from 'lodash';
+import lodash, { cloneDeep, isArray, isEmpty, isFunction, isObject, isString } from 'lodash';
 import Immutable from 'immutable';
 import DataUtil from './data-util';
 import ArrayUtil from './array-util';
@@ -18,10 +11,7 @@ import { ObjectType } from './types';
  * @param object
  * @returns
  */
-export function isValidKey(
-  key: string | number | symbol,
-  object: object,
-): key is keyof typeof object {
+const isValidKey = ( key: string | number | symbol, object: object ): key is keyof typeof object => {
   return key in object;
 }
 
@@ -33,10 +23,7 @@ export function isValidKey(
  * @returns
  */
 const setValue = (
-  target: Record<string, any> | any[],
-  key: string,
-  value: any,
-): Record<any, any> => {
+  target: Record<string, any> | any[], key: string, value: any ): Record<any, any> => {
   if (!target || !key) return { key: value };
   if (key === '__proto__') {
     Object.defineProperty(target, key, {
@@ -62,10 +49,7 @@ const setValue = (
  * @param path a.0.b
  * @returns 1
  */
-const getField = (
-  item: Record<string | number, any> | string,
-  path: string,
-) => {
+const getField = ( item: Record<string | number, any> | string, path: string ) => {
   if (isString(item) || !item || !path) return item;
   if (path.includes('.')) {
     const keys: string[] = path.split('.');
@@ -120,12 +104,6 @@ const equals = (a: Array<any> | ObjectType, b: Array<any> | ObjectType) => {
   return Immutable.is(Immutable.fromJS(a), Immutable.fromJS(b));
 };
 
-const toJsonString = (value: string) => {
-  return isString(value) && !isEmpty(value)
-    ? JSON.stringify(JSON.parse(value), null, 2)
-    : JSON.stringify(value, null, 2);
-};
-
 /**
  * 清空无效的键值对
  * @param object
@@ -152,11 +130,7 @@ const cleanObject = (object: Record<any, any>, exclude: string[] = []) => {
  * @param obj
  * @param paths
  */
-const some = (
-  obj: Record<any, any>,
-  paths: string[] | ((val: any) => boolean),
-  value?: any,
-): boolean => {
+const some = ( obj: Record<any, any>, paths: string[] | ((val: any) => boolean), value?: any ): boolean => {
   if (obj === null || !ArrayUtil.isNotEmpty(paths)) return false;
   if (isArray(paths)) {
     return paths.some((path) => getField(obj, path) === value);
@@ -173,15 +147,9 @@ const some = (
  * @param paths [name, age]
  * @returns {name:tom,age:20}
  */
-const pick = (
-  obj: Record<any, any>,
-  paths: string[] | ((val: any) => boolean),
-): Record<any, any> => {
+const pick = ( obj: Record<any, any>, paths: string[] | ((val: any) => boolean) ): Record<any, any> => {
   if (isArray(paths)) {
-    return paths.reduce(
-      (rs, path) => setField(rs, path, getField(obj, path)),
-      {} as Record<any, any>,
-    );
+    return paths.reduce((rs, path) => setField(rs, path, getField(obj, path)), {} as Record<any, any>);
   }
   if (isFunction(paths)) {
     return Object.keys(obj).reduce((rs, path) => {
@@ -202,10 +170,7 @@ const pick = (
  * @param paths [name, age]
  * @returns {name:tom,age:20}
  */
-const omit = (
-  obj: Record<any, any>,
-  paths: string[] | ((val: any) => boolean),
-): Record<any, any> => {
+const omit = ( obj: Record<any, any>, paths: string[] | ((val: any) => boolean) ): Record<any, any> => {
   if (isArray(paths)) {
     return Object.keys(obj).reduce((rs, path) => {
       if (!paths.includes(path)) {
@@ -229,10 +194,7 @@ const omit = (
 /**
  * 遍历对象，value去空格或指定字符
  */
-const trim = <T extends ObjectType | ObjectType[]>(
-  data: T,
-  chars?: string,
-): T => {
+const trim = <T extends ObjectType | ObjectType[]>( data: T, chars?: string ): T => {
   const objTrim = (item: ObjectType) => {
     Object.keys(item).forEach((v, k) => {
       if (isString(v)) {
@@ -271,21 +233,15 @@ const trim = <T extends ObjectType | ObjectType[]>(
  * @param customizer 如果是function则默认lodash，如果是object，则key值转换
  * @returns
  */
-const mapKeys = (
-  obj: object,
-  customizer: object | ((value: any, key: any) => any),
-): object => {
+const mapKeys = ( obj: object, customizer: object | ((value: any, key: any) => any) ): object => {
   if (isFunction(customizer)) return lodash.mapKeys(obj, customizer);
-  return Object.fromEntries(
-    Object.entries(obj).map(([k, v]) => [customizer[k] || k, v]),
-  );
+  return Object.fromEntries( Object.entries(obj).map(([k, v]) => [customizer[k] || k, v]) );
 };
 
 export default {
   getField,
   setField,
   equals,
-  toJsonString,
   cleanObject,
   isValidKey,
   some,
