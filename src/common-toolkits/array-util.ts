@@ -96,9 +96,7 @@ const unique = <T>(arr: T[], customizer?: (val: T) => string): Array<T> => {
  * @param arr
  * @returns
  */
-const uniqueSort = (arr: any): any[] => {
-  return unique(arr).sort();
-};
+const uniqueSort = (arr: any): any[] => unique(arr).sort();
 
 const mapByKey = (list: { [K: string]: any }[], k = 'id') => {
   return list.map((i) => i[k]);
@@ -131,9 +129,8 @@ const equals = (arr: string | any[], target: string | any[]) => {
   return true;
 };
 
-const isNotEmpty = (arr: any): boolean => {
-  return arr && !isEmpty(arr) && arr?.length > 0;
-};
+const isNotEmpty = (arr: any): boolean =>
+  arr && !isEmpty(arr) && arr?.length > 0;
 
 /**
  * 根据下标的集合取子集，或自定义取
