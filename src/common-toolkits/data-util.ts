@@ -1,12 +1,4 @@
-import lodash, {
-  isObject,
-  isEmpty,
-  forEach,
-  isNumber,
-  isBoolean,
-  isString,
-  isArray,
-} from 'lodash';
+import lodash, { isObject, isEmpty, forEach, isNumber, isBoolean, isString, isArray } from 'lodash';
 import isJSON from '@stdlib/assert-is-json';
 import isJSONObj from 'isjsonobj';
 import { ObjectUtil } from '..';
@@ -27,15 +19,8 @@ const result = {
    * @param format
    * @returns
    */
-  setDefaultValue: (
-    data: Record<string, string> | Array<Record<string, string>>,
-    format: Record<string, any>,
-  ): Record<string, string> | Array<Record<string, string>> => {
-    const toObject = (
-      obj: Record<string, string>,
-      key: string,
-      defaultValue: any,
-    ) => {
+  setDefaultValue: ( data: Record<string, string> | Array<Record<string, string>>, format: Record<string, any> ): Record<string, string> | Array<Record<string, string>> => {
+    const toObject = ( obj: Record<string, string>, key: string, defaultValue: any ) => {
       if (obj && obj[key]) {
         return obj;
       }
@@ -43,11 +28,7 @@ const result = {
       return obj;
     };
 
-    const toFormat = (
-      item: Record<string, string> | Array<Record<string, string>>,
-      key: string,
-      defaultValue: any,
-    ) => {
+    const toFormat = ( item: Record<string, string> | Array<Record<string, string>>, key: string, defaultValue: any ) => {
       if (Array.isArray(data)) {
         data.forEach((i) => toObject(i, key, defaultValue));
       } else if (isObject(data)) {
@@ -69,13 +50,7 @@ const params = {
    * @param args
    * @returns
    */
-  extends: (
-    param: Record<string | number, any>,
-    args: {
-      customizer: (item: Record<string | number, any>) => boolean;
-      item: Record<string | number, any>;
-    }[],
-  ): Record<string | number, any> => {
+  extends: ( param: Record<string | number, any>, args: { customizer: (item: Record<string | number, any>) => boolean; item: Record<string | number, any> }[] ): Record<string | number, any> => {
     return args.reduce((rs, next) => {
       if (next.customizer(next.item)) {
         forEach(next.item, (v, k) => {
@@ -116,50 +91,28 @@ const unknown = {
    * @param value
    * @returns
    */
-  parseValue: (
-    value: string | ReadonlyArray<string> | number,
-  ): number | string => {
+  parseValue: ( value: string | ReadonlyArray<string> | number ): number | string => {
     if (lodash.isNumber(value)) return value;
-    if (lodash.isString(value) && unknown.isInt(value))
-      return parseInt(value, 10);
+    if (lodash.isString(value) && unknown.isInt(value)) return parseInt(value, 10);
     return value.toString();
   },
 
-  isVoid: (value: unknown) =>
-    value === undefined ||
-    value === null ||
-    value === '' ||
-    value === 'undefined' ||
-    value === 'null',
+  isVoid: (value: unknown) => value === undefined || value === null || value === '' || value === 'undefined' || value === 'null',
 
   isFalsy: (value: unknown) => (value === 0 ? false : !value),
 
-  isValue: (value: any) =>
-    isNumber(value) ||
-    isBoolean(value) ||
-    isString(value) ||
-    isObject(value) ||
-    isArray(value) ||
-    !!value,
+  isValue: (value: any) => isNumber(value) || isBoolean(value) || isString(value) || isObject(value) || isArray(value) || !!value,
 
   /**
    * 判断字符串是否是十六进制的颜色值
    * @param value
    */
-  isColor: (value: string): boolean =>
-    /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(value),
+  isColor: (value: string): boolean => /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(value),
 };
 
 const tree = {
-  filter: (
-    array: any[],
-    children = 'children',
-    customizer = (object: { text: string }) => object.text === '',
-  ) => {
-    const getNodes = (
-      result: any[],
-      object: { text: string; [x: string]: any },
-    ) => {
+  filter: ( array: any[], children = 'children', customizer = (object: { text: string }) => object.text === '' ) => {
+    const getNodes = ( result: any[], object: { text: string; [x: string]: any } ) => {
       if (customizer(object)) {
         result.push(object);
         return result;
