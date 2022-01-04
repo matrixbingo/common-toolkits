@@ -1,4 +1,5 @@
-import { isString } from 'lodash';
+import { floor, isEmpty, isString } from 'lodash';
+import DataUtil from './data-util';
 
 /**
  * @param num
@@ -27,9 +28,7 @@ const currency = (num: any, precision: number, separator: string): string => {
     // 的值变成了 12312312.123456713
     num = Number(num);
     // 处理小数点位数
-    num = (
-      typeof precision !== 'undefined' ? num.toFixed(precision) : num
-    ).toString();
+    num = String(typeof precision !== 'undefined' ? num.toFixed(precision) : num);
     // 分离数字的小数部分和整数部分
     parts = num.split('.');
     // 整数部分加[separator]分隔, 借用一个著名的正则表达式
@@ -42,13 +41,26 @@ const currency = (num: any, precision: number, separator: string): string => {
   return '';
 };
 
+
+/**
+ * 百分率
+ * @param num 
+ * @returns 
+ */
+const percent = (num: string | number, _percent = '%') => {
+  if ((DataUtil.unknown.isFloat(num) || DataUtil.unknown.isInt(num)) && !isEmpty(num)) {
+    return `${floor(Number(num) * 100, 2)}${_percent}`;
+  }
+  return '';
+};
+
+
 /**
  * 给数字添加千分位 10000 => 10,000
  * @param num
  * @returns
  */
-const thousands = (num: string | number): string =>
-  String(num).replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`);
+const thousands = (num: string | number): string => String(num).replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`);
 
 /**
  * 格式化，显示用
@@ -82,4 +94,5 @@ export default {
   currency,
   thousands,
   json,
+  percent,
 };
