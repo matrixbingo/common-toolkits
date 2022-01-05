@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { cloneDeep, isEmpty, replace, split, startsWith } from 'lodash';
 
 /**
  * 获取GET请求参数的对象
@@ -57,9 +57,39 @@ const extendParam = ( param: Record<string, string> = {}, url: string = window.l
   return host + (isEmpty(params) ? '' : `?${initParams(params)}`);
 };
 
+/**
+ * 替换url pathVariable 参数
+ * @param url 
+ * @param params 
+ * @param options  omit: 是否omit参数，不改变初始参数
+ * @returns 
+ */
+const pathVariable = (url: string, params: object, options: { separator: string; omit: boolean} = { separator: ':', omit: true}) => {
+  if(isEmpty(params)) return url;
+  const { separator, omit } = options;
+  if(omit){
+    const _params = cloneDeep(params);
+    Object.entries(params).forEach(([k, v]) => {
+      const key = separator + k;
+      if (url.includes(key)) {
+        url = replace(url, key, v);
+        delete _params[k];
+      }
+    });
+    return { url, params: _params} ;
+  } else {
+    Object.entries(params).forEach(([k, v]) => {
+      url = replace(url,  separator + k, v);
+    });
+  }
+
+  return { url, params };
+};
+
 export default {
   urlParams,
   initParams,
   getParameterByName,
   extendParam,
+  pathVariable,
 };

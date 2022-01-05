@@ -235,7 +235,7 @@ const trim = <T extends ObjectType | ObjectType[]>( data: T, chars?: string ): T
  */
 const mapKeys = ( obj: object, customizer: object | ((value: any, key: any) => any) ): object => {
   if (isFunction(customizer)) return lodash.mapKeys(obj, customizer);
-  return Object.fromEntries( Object.entries(obj).map(([k, v]) => [customizer[k] || k, v]) );
+  return Object.fromEntries(Object.entries(obj).map(([k, v]) => [customizer[k] || k, v]) );
 };
 
 export default {
