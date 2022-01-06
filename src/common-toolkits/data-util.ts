@@ -1,4 +1,4 @@
-import lodash, { isObject, isEmpty, forEach, isNumber, isBoolean, isString, isArray } from 'lodash';
+import lodash, { isObject, isEmpty, forEach, isNumber, isBoolean, isString, isArray, isFunction } from 'lodash';
 import isJSON from '@stdlib/assert-is-json';
 import isJSONObj from 'isjsonobj';
 import { ObjectUtil } from '..';
@@ -43,6 +43,36 @@ const result = {
   },
 };
 
+  /**
+   * 被clear调用，无需对外暴露
+   * 清空无效的键值对
+   * @param object
+   * @param exclude 排除字段
+   * @returns
+   */
+const cleanObject = (object: Record<any, any>, customizer: any[] | ((item: any) => boolean) = ['', undefined, null], exclude: string[] = []) => {
+  // Object.assign({}, object)
+  const result = { ...object };
+  Object.keys(result).forEach((key) => {
+    const value = result[key];
+    if (!exclude.includes(key)) {
+      if (isArray(customizer)) {
+        if ((customizer as any[]).includes(value)) {
+          delete result[key];
+        }
+      } else if (isFunction(customizer)) {
+        if (customizer(value)) {
+          delete result[key];
+        }
+      }
+    }
+    if (isObject(value)) {
+      result[key] = cleanObject(value, customizer, exclude);
+    }
+  });
+  return result;
+};
+
 const params = {
   /**
    * 给参数添加属性值
@@ -59,6 +89,27 @@ const params = {
       }
       return rs;
     }, param);
+  },
+
+  /**
+   * 根据实际情况清空数组对象或对象的属性,默认清空
+   * @param target
+   * @param customizer
+   * @param exclude
+   * @returns
+   */
+  clear: (target: any, customizer: any[] | ((item: any) => boolean) = ['', undefined, null], exclude: string[] = []) => {
+    if (isObject(target)) return cleanObject(target, customizer, exclude);
+    if (isArray(target)) {
+      target = Array.from(target);
+      return target.map((ele: Record<any, any>) => {
+        if (isObject(ele)) {
+          return cleanObject(ele, customizer, exclude);
+        }
+        return ele;
+      });
+    }
+    return target;
   },
 };
 
@@ -206,56 +257,6 @@ const uuid = () => {
 };
 
 
-/**
- * 清空无效的键值对
- * @param object
- * @param exclude 排除字段
- * @returns
- */
-const cleanObject = (object: Record<any, any>, customizer: any[] | ((item: any) => boolean) = ['', undefined, null], exclude: string[] = []) => {
-  // Object.assign({}, object)
-  const result = { ...object };
-  Object.keys(result).forEach((key) => {
-    const value = result[key];
-    if (!exclude.includes(key)) {
-      if (isArray(customizer)) {
-        if ((customizer as any[]).includes(value)) {
-          delete result[key];
-        }
-      } else if (isFunction(customizer)) {
-        if (customizer(value)) {
-          delete result[key];
-        }
-      }
-    }
-    if (isObject(value)) {
-      result[key] = cleanObject(value, customizer, exclude);
-    }
-  });
-  return result;
-};
-
-/**
- * 根据实际情况清空数组对象或对象的属性
- * @param target
- * @param customizer
- * @param exclude
- * @returns
- */
-const clear = (target: any, customizer: any[] | ((item: any) => boolean) = ['', undefined, null], exclude: string[] = []) => {
-  if (isObject(target)) return cleanObject(target, customizer, exclude);
-  if (isArray(target)) {
-    target = Array.from(target);
-    return target.map((ele) => {
-      if (isObject(ele)) {
-        return cleanObject(ele, customizer, exclude);
-      }
-      return ele;
-    });
-  }
-  return target;
-};
-
 export default {
   pattern,
   result,
@@ -264,5 +265,4 @@ export default {
   input,
   params,
   uuid,
-  clear,
 };

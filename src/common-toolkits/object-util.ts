@@ -105,27 +105,6 @@ const equals = (a: Array<any> | ObjectType, b: Array<any> | ObjectType) => {
 };
 
 /**
- * 清空无效的键值对
- * @param object
- * @returns
- */
-const cleanObject = (object: Record<any, any>, exclude: string[] = []) => {
-  const result = { ...object };
-  Object.keys(result).forEach((key) => {
-    const value = result[key];
-    if (!exclude.includes(key)) {
-      if (DataUtil.unknown.isVoid(value)) {
-        delete result[key];
-      }
-      if (isObject(value)) {
-        cleanObject(value);
-      }
-    }
-  });
-  return result;
-};
-
-/**
  * obj中是否存在value
  * @param obj
  * @param paths
@@ -242,7 +221,6 @@ export default {
   getField,
   setField,
   equals,
-  cleanObject,
   isValidKey,
   some,
   pick,
