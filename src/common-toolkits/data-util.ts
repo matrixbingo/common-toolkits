@@ -205,6 +205,57 @@ const uuid = () => {
   });
 };
 
+
+/**
+ * 清空无效的键值对
+ * @param object
+ * @param exclude 排除字段
+ * @returns
+ */
+const cleanObject = (object: Record<any, any>, customizer: any[] | ((item: any) => boolean) = ['', undefined, null], exclude: string[] = []) => {
+  // Object.assign({}, object)
+  const result = { ...object };
+  Object.keys(result).forEach((key) => {
+    const value = result[key];
+    if (!exclude.includes(key)) {
+      if (isArray(customizer)) {
+        if ((customizer as any[]).includes(value)) {
+          delete result[key];
+        }
+      } else if (isFunction(customizer)) {
+        if (customizer(value)) {
+          delete result[key];
+        }
+      }
+    }
+    if (isObject(value)) {
+      result[key] = cleanObject(value, customizer, exclude);
+    }
+  });
+  return result;
+};
+
+/**
+ * 根据实际情况清空数组对象或对象的属性
+ * @param target
+ * @param customizer
+ * @param exclude
+ * @returns
+ */
+const clear = (target: any, customizer: any[] | ((item: any) => boolean) = ['', undefined, null], exclude: string[] = []) => {
+  if (isObject(target)) return cleanObject(target, customizer, exclude);
+  if (isArray(target)) {
+    target = Array.from(target);
+    return target.map((ele) => {
+      if (isObject(ele)) {
+        return cleanObject(ele, customizer, exclude);
+      }
+      return ele;
+    });
+  }
+  return target;
+};
+
 export default {
   pattern,
   result,
@@ -213,4 +264,5 @@ export default {
   input,
   params,
   uuid,
+  clear,
 };
