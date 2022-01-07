@@ -98,17 +98,18 @@ const params = {
    * @param exclude
    * @returns
    */
-  clear: (target: any, customizer: any[] | ((item: any) => boolean) = ['', undefined, null], exclude: string[] = []) => {
-    if (isObject(target)) return cleanObject(target, customizer, exclude);
+   clear: (target: any, options: { customizer?: any[] | ((item: any) => boolean); exclude?: string[] } = { customizer: ['', undefined, null], exclude: [] }) => {
     if (isArray(target)) {
       target = Array.from(target);
-      return target.map((ele: Record<any, any>) => {
+      const rs = target.map((ele) => {
         if (isObject(ele)) {
-          return cleanObject(ele, customizer, exclude);
+          return cleanObject(ele, options.customizer, options.exclude);
         }
         return ele;
       });
+      return rs;
     }
+    if (isObject(target)) return cleanObject(target, options.customizer, options.exclude);
     return target;
   },
 };
