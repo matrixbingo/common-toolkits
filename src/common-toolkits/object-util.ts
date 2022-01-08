@@ -207,15 +207,6 @@ const trim = <T extends ObjectType | ObjectType[]>( data: T, chars?: string ): T
   return data;
 };
 
-/**
- * @param obj
- * @param customizer 如果是function则默认lodash，如果是object，则key值转换
- * @returns
- */
-const mapKeys = ( obj: object, customizer: object | ((value: any, key: any) => any) ): object => {
-  if (isFunction(customizer)) return lodash.mapKeys(obj, customizer);
-  return Object.fromEntries(Object.entries(obj).map(([k, v]) => [customizer[k] || k, v]) );
-};
 
 export default {
   getField,
@@ -226,5 +217,4 @@ export default {
   pick,
   omit,
   trim,
-  mapKeys,
 };

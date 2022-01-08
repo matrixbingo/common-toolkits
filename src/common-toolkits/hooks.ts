@@ -65,3 +65,4 @@ export const useParallel = ( ...loadings: boolean[] ): { readonly loading: boole
   
   return { loading, ready } as const;
 };
+

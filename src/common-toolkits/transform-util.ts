@@ -1,4 +1,4 @@
-import { isArray, isObject } from 'lodash';
+import lodash, { isArray, isFunction, isObject } from 'lodash';
 import ObjectUtil from './object-util';
 import ArrayUtil from './array-util';
 import { ObjectType } from './types';
@@ -61,7 +61,12 @@ const select = {
  * @path id
  * @returns ['a1', 'a2']
  */
-const toArrByPath = (arr: any[], path: string): any[] =>  arr.reduce((list, next) => ArrayUtil.push(list, ObjectUtil.getField(next, path)), []);
+const toArrByPathUnique = (arr: any[], path: string): any[] =>  arr.reduce((list, next) => ArrayUtil.push(list, ObjectUtil.getField(next, path)), []);
+
+const toArrByPath = (arr: any[], path: string): any[] => arr.reduce((list, next) => {
+  list.push(ObjectUtil.getField(next, path));
+  return list;
+}, [] as any[]);
 
 /**
  * 与toArrByPath类似，依赖toArrByPath,输出多组
@@ -108,6 +113,30 @@ const numberArrToStringArr = (arr: number[]): string[] => arr.map((i) => String(
 const stringArrToMumberArr = (arr: string[]): number[] => arr.map((i) => Number(i));
 
 /**
+ * @param obj
+ * @param customizer 如果是function则默认lodash，如果是object，则key值转换
+ * @returns
+ */
+const objectMapKeys = ( obj: object, customizer: object | ((value: any, key: any) => any) ): object => {
+  if (isFunction(customizer)) return lodash.mapKeys(obj, customizer);
+  return Object.fromEntries(Object.entries(obj).map(([k, v]) => [customizer[k] || k, v]) );
+};
+
+const mapKeys = <T extends object | object[]>(target: T, customizer: object | ((value: any, key: any) => any) ): T => {
+  if(isArray(<object[]>target)){
+      return (<object[]>target).map((ele: Record<any, any>) => {
+        if (isObject(ele)) {
+          return objectMapKeys(ele, customizer);
+        }
+        return ele;
+      }) as T;
+  } else if(isObject(target)) {
+    return objectMapKeys(target, customizer) as T;
+  }
+  return target;
+};
+
+/**
  * TODO 操作
  */
 const options = {};
@@ -116,8 +145,10 @@ export default {
   select,
   options,
   toArrByPath,
+  toArrByPathUnique,
   toArrByPaths,
   nullToString,
   numberArrToStringArr,
-  stringArrToMumberArr
+  stringArrToMumberArr,
+  mapKeys,
 };

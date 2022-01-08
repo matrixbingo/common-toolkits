@@ -7,5 +7,5 @@ nav:
 
 # 示例
 
-## array-util
+## TransformUtil
 <code src="../examples/transform-util-use" />

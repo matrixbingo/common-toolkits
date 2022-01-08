@@ -28,6 +28,12 @@ const ArrayUtilDemo = () => {
     const options = [{ id: '1', name: 'aa' },{ id: '2', name: 'bb' }];
     const rs2 = TransformUtil.select.transformSelect(options, 'id', 'name');
     console.log('TransformUtil.select.transformSelect---->', rs2)
+  }  
+  
+  const onClick4 = () => {
+    const options = [{ id: '1', name: 'aa' },{ id: '2', name: 'bb' }];
+    const rs2 = TransformUtil.mapKeys(options, {'id': 'id12'});
+    console.log('TransformUtil.mapKeys---->', rs2)
   }
 
   return (<>
@@ -37,6 +43,8 @@ const ArrayUtilDemo = () => {
     <Button onClick={onClick2} >TransformUtil.select.formatObject</Button>
     <br/>
     <Button onClick={onClick3} >TransformUtil.select.transformSelect</Button>
+    <br/>
+    <Button onClick={onClick4} >TransformUtil.mapKeys</Button>
   </>)
 };
 
