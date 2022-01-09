@@ -1,4 +1,4 @@
-import { isArray, isEmpty, isFunction, isNumber, isString } from 'lodash';
+import { assign, cloneDeep, isArray, isEmpty, isFunction, isNumber, isString } from 'lodash';
 import ObjectUtil from './object-util';
 import DataUtil from './data-util';
 import { ObjectType, Raw } from './types';
@@ -169,7 +169,10 @@ const filterItemListByPaths = <T>( arr: T[], path: string, values: any[] ): T[] 
  */
 const includes = (arr: any[], fun: (item: any) => boolean) => arr.some((i) => fun(i));
 
+const add = <T, S>(arr: T[], item: S): T[] => arr.map((i) => assign(cloneDeep(item), i));
+
 export default {
+  add,
   push,
   pushByIndex,
   remove,

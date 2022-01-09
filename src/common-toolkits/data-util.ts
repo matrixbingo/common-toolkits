@@ -101,7 +101,7 @@ const params = {
    clear: (target: any, options: { customizer?: any[] | ((item: any) => boolean); exclude?: string[] } = { customizer: ['', undefined, null], exclude: [] }) => {
     if (isArray(target)) {
       target = Array.from(target);
-      const rs = target.map((ele) => {
+      const rs = target.map((ele: any) => {
         if (isObject(ele)) {
           return cleanObject(ele, options.customizer, options.exclude);
         }
