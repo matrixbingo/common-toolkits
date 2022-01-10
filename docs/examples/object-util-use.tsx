@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { Button, Input, Row } from 'antd';
-import { ObjectUtil } from 'common-toolkits';
+import { ObjectUtil, DataUtil } from 'common-toolkits';
+import { set } from 'lodash';
 
 const setField = () => {
   const target = { a: 'a' };
-  const path = 'b';
+  const path = 'b.dd';
   const item = 'abc';
+  const path2 ='a.2.c.4';
+
   const rs1 = ObjectUtil.setField(target, path, item);
-  console.log('ObjectUtil.setField---->', rs1);
+  const rs2 = ObjectUtil.setField(rs1, 'c', 3);
+  const rs3 = ObjectUtil.setField(rs2, 'd.3', {aaa:22});
+
+  console.log('ObjectUtil.setField---->', rs3);
+
 };
 
 const mapKeys = () => {

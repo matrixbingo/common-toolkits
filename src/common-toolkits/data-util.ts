@@ -98,7 +98,7 @@ const params = {
    * @param exclude
    * @returns
    */
-   clear: (target: any, options: { customizer?: any[] | ((item: any) => boolean); exclude?: string[] } = { customizer: ['', undefined, null], exclude: [] }) => {
+  clear: (target: any, options: { customizer?: any[] | ((item: any) => boolean); exclude?: string[] } = { customizer: ['', undefined, null], exclude: [] }) => {
     if (isArray(target)) {
       target = Array.from(target);
       const rs = target.map((ele: any) => {

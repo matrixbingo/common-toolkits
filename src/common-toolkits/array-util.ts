@@ -1,4 +1,4 @@
-import { assign, cloneDeep, isArray, isEmpty, isFunction, isNumber, isString } from 'lodash';
+import { assign, cloneDeep, isArray, isEmpty, isFunction, isNumber, isObject, isString } from 'lodash';
 import ObjectUtil from './object-util';
 import DataUtil from './data-util';
 import { ObjectType, Raw } from './types';
@@ -118,26 +118,54 @@ const equals = (arr: string | any[], target: string | any[]) => {
 const isNotEmpty = (arr: any): boolean => arr && !isEmpty(arr) && arr?.length > 0;
 
 /**
- * 根据下标的集合取子集，或自定义取
+ * 取子集，可自定义取，如果index为true则取下标的子集
  * @param list ['a', 'b', 'c', 'd']
- * @param arr [1,2]
+ * @param arr [1, 2]
  * @returns ['a', 'b']
  */
-const pick = <T extends Raw | ObjectType>( list: T[], arg: number[] | ((val: T) => boolean) ): Array<T> => {
-  if (isArray(arg)) return list.filter((_, i) => arg.includes(i));
-  if (isFunction(arg)) return list.filter((i) => arg(i));
+const pick = <T extends Raw | ObjectType>( list: T[], customizer: any[] | ((val: T) => boolean), index = false ): Array<T> => {
+  if (isArray(customizer)) {
+    if(index){
+      return list.filter((_, i) => customizer.includes(i));
+    }
+    return list.reduce((rs, next) => {
+      if(isObject(next)){
+        rs.push(ObjectUtil.pick(next, customizer));
+      } else if(isNumber(next) || isString(next)){
+        if(customizer.includes(next)){
+          rs.push(next);
+        }
+      }
+      return rs;
+    }, [] as T[]);
+  }
+  if (isFunction(customizer)) return list.filter((i) => customizer(i));
   return list;
 };
 
 /**
- * 根据下标的集合取补集，或自定义取
+ * 取补集，可自定义取，如果index为true则取下标的补集
  * @param list [1,2,3,4]
- * @param arr [1,2]
+ * @param customizer [1,2]
  * @returns [3,4]
  */
-const omit = <T extends Raw | Record<any, any>>( list: T[], arg: number[] | ((val: T) => boolean) ): Array<T> => {
-  if (isArray(arg)) return list.filter((_, i) => !arg.includes(i));
-  if (isFunction(arg)) return list.filter((i) => !arg(i));
+const omit = <T extends Raw | Record<any, any>>( list: T[], customizer: any[] | ((val: T) => boolean), index = false ): Array<T> => {
+  if (isArray(customizer)){
+    if(index){
+      return list.filter((_, i) => !customizer.includes(i));
+    }
+    return list.reduce((rs, next) => {
+      if(isObject(next)){
+        rs.push(ObjectUtil.omit(next, customizer));
+      } else if(isNumber(next) || isString(next)){
+        if(!customizer.includes(next)){
+          rs.push(next);
+        }
+      }
+      return rs;
+    }, [] as T[]);
+  } 
+  if (isFunction(customizer)) return list.filter((i) => !customizer(i));
   return list;
 };
 

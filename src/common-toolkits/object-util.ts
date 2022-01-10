@@ -1,5 +1,5 @@
 /* eslint-disable no-return-assign */
-import lodash, { cloneDeep, isArray, isEmpty, isFunction, isObject, isString } from 'lodash';
+import lodash, { cloneDeep, isArray, isEmpty, isFunction, isNumber, isObject, isString, set } from 'lodash';
 import Immutable from 'immutable';
 import DataUtil from './data-util';
 import ArrayUtil from './array-util';
@@ -80,16 +80,29 @@ const setField = (target: Record<any, any>, path: string, value: any) => {
     const keys: string[] = path.split('.');
     if (keys.length === 1) return setValue(target, path, value);
     try {
-      const len = keys.length - 1;
-      keys.reduce((obj, key, index) => {
-        if (index < len) {
-          return obj[DataUtil.unknown.parseValue(key)];
-        } else {
-          if (obj && obj[DataUtil.unknown.parseValue(key)]) {
-            return (obj[DataUtil.unknown.parseValue(key)] = value);
+      const rs = keys.reduce((arr, next) => {
+        if(DataUtil.unknown.isInt(next)){
+          arr.push({key: '[' + next +']', type: 'int'});
+        }else{
+          arr.push({key: next, type: 'string'});
+        }
+        return arr;
+      }, [] as any[]);
+
+      const length = rs.length;
+      let path = '';
+      rs.forEach((v, i) => {
+        if (i === 0){
+          path = v.key;
+        } else if (i < length){
+          if (v.type === 'int'){
+            path += v.key;
+          } else if (v.type === 'string'){
+            path += '.' + v.key;
           }
         }
-      }, target);
+      });
+      set(target, path, value);
     } catch (e) {
       console.warn('ObjectUtil.setField', value, path, e);
     }
@@ -123,17 +136,27 @@ const some = ( obj: Record<any, any>, paths: string[] | ((val: any) => boolean),
 /**
  * 从obj中取出keys，返回新的obj
  * @param obj {id:1,name:tom,age:20}
- * @param paths [name, age]
+ * @param customizer [name, age]
  * @returns {name:tom,age:20}
  */
-const pick = ( obj: Record<any, any>, paths: string[] | ((val: any) => boolean) ): Record<any, any> => {
-  if (isArray(paths)) {
-    return paths.reduce((rs, path) => setField(rs, path, getField(obj, path)), {} as Record<any, any>);
+const pick = ( obj: Record<any, any>, customizer: string[] | ((val: any) => boolean) ): Record<any, any> => {
+  if (isArray(customizer)) {
+    const keys = Object.keys(obj);
+    return customizer.reduce((rs, path) => {
+      if(path.includes('.')){
+        setField(rs, path, getField(obj, path));
+      }else{
+        if (keys.includes(path)) {
+          rs[path] = getField(obj, path);
+        }
+      }
+      return rs;
+    }, {});
   }
-  if (isFunction(paths)) {
+  if (isFunction(customizer)) {
     return Object.keys(obj).reduce((rs, path) => {
       const item = getField(obj, path);
-      if (paths(cloneDeep(item))) {
+      if (customizer(cloneDeep(item))) {
         setField(rs, path, item);
       }
       return rs;
@@ -146,22 +169,27 @@ const pick = ( obj: Record<any, any>, paths: string[] | ((val: any) => boolean) 
  * 取反过滤 pick
  * TODO rs[path] 支持多级路径
  * @param obj {id:1,name:tom,age:20}
- * @param paths [name, age]
+ * @param customizer [name, age]
  * @returns {name:tom,age:20}
  */
-const omit = ( obj: Record<any, any>, paths: string[] | ((val: any) => boolean) ): Record<any, any> => {
-  if (isArray(paths)) {
-    return Object.keys(obj).reduce((rs, path) => {
-      if (!paths.includes(path)) {
-        rs[path] = getField(obj, path);
+const omit = ( obj: Record<any, any>, customizer: string[] | ((val: any) => boolean) ): Record<any, any> => {
+  if (isArray(customizer)) {
+    const keys = Object.keys(obj);
+    return customizer.reduce((rs, path) => {
+      if(path.includes('.')){
+       // TODO
+      } else {
+        if (keys.includes(path)) {
+          rs = lodash.assign(rs, lodash.omit(obj, [path]));
+        }
       }
       return rs;
-    }, {} as Record<any, any>);
+    }, {});
   }
-  if (isFunction(paths)) {
+  if (isFunction(customizer)) {
     return Object.keys(obj).reduce((rs, path) => {
       const item = getField(obj, path);
-      if (!paths(cloneDeep(item))) {
+      if (!customizer(cloneDeep(item))) {
         rs[path] = item;
       }
       return rs;
