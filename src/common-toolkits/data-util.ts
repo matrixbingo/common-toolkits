@@ -24,7 +24,11 @@ const result = {
       if (obj && obj[key]) {
         return obj;
       }
-      obj[key] = defaultValue;
+      if (isFunction(defaultValue)) {
+        obj[key] = defaultValue(obj[key]);
+      } else {
+        obj[key] = defaultValue;
+      }
       return obj;
     };
 
