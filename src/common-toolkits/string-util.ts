@@ -57,4 +57,4 @@ export default {
   splitToNumberArrayUniqueSort,
   toArrayBySeparator,
   truncate,
-};
+} as const;

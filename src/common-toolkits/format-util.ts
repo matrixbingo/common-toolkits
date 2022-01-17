@@ -95,4 +95,4 @@ export default {
   thousands,
   json,
   percent,
-};
+} as const;

@@ -245,4 +245,4 @@ export default {
   pick,
   omit,
   trim,
-};
+} as const;

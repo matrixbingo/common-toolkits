@@ -215,4 +215,4 @@ export default {
   filterItemListByPaths,
   includes,
   initArray
-};
+} as const;

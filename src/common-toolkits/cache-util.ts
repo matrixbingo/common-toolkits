@@ -24,4 +24,4 @@ const setLocalStorageData = (storageCode: string, storageData: Record<string|num
 export default {
   getLocalStorageData,
   setLocalStorageData
-};
+} as const;

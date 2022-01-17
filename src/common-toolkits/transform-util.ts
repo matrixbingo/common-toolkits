@@ -151,4 +151,4 @@ export default {
   numberArrToStringArr,
   stringArrToMumberArr,
   mapKeys,
-};
+} as const;

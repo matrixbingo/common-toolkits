@@ -59,13 +59,13 @@ const extendParam = ( param: Record<string, string> = {}, url: string = window.l
 
 /**
  * 替换url pathVariable 参数
- * @param url 
- * @param params 
+ * @param url
+ * @param params
  * @param options  omit: 是否omit参数，不改变初始参数
- * @returns 
+ * @returns
  */
 const pathVariable = (url: string, params: object, options: { separator: string; omit: boolean} = { separator: ':', omit: true}) => {
-  if(isEmpty(params)) return url;
+  if(isEmpty(params)) return { url, params };
   const { separator, omit } = options;
   if(omit){
     const _params = cloneDeep(params);
@@ -92,4 +92,4 @@ export default {
   getParameterByName,
   extendParam,
   pathVariable,
-};
+} as const;

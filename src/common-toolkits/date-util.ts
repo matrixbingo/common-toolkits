@@ -67,4 +67,4 @@ export default {
   range,
   diff,
   comparison,
-};
+} as const;
