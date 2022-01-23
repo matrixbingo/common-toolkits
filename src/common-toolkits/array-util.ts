@@ -1,7 +1,70 @@
-import { assign, cloneDeep, isArray, isEmpty, isFunction, isNumber, isObject, isString } from 'lodash';
+import lodash, { cloneDeep, isArray, isEmpty, isFunction, isNumber, isObject, isString } from 'lodash';
 import ObjectUtil from './object-util';
 import DataUtil from './data-util';
 import { ObjectType, Raw } from './types';
+
+/**
+ * 给对象数组的每一个对象添加属性
+ * @param arr
+ * @param item
+ * @returns
+ */
+const assign = <T, S>(arr: T[], item: S): T[] => arr.map((i) => lodash.assign(cloneDeep(item), i));
+
+/**
+ * TODO 可替换
+ * 比较两个数组值是否相等
+ * @param arr
+ * @param target
+ * @returns
+ */
+const equals = (arr: string | any[], target: string | any[]) => {
+  // if the other array is a falsy value, return
+  if (!target) return false;
+
+  // compare lengths - can save a lot of time
+  if (arr.length !== target.length) return false;
+
+  for (let i = 0, l = arr.length; i < l; i++) {
+    // Check if we have nested arrays
+    if (arr[i] instanceof Array && target[i] instanceof Array) {
+      // recurse into the nested arrays
+      if (!arr[i].equals(target[i])) return false;
+    } else if (arr[i] !== target[i]) {
+      // Warning - two different object instances will never be equal: {x:20} != {x:20}
+      return false;
+    }
+  }
+  return true;
+};
+
+/**
+ * 根据path对应的value，从arr里查找
+ * @param arr [{id: 'a1', name: 'n1'}, {id: 'a2', name: 'n2'}]
+ * @param path  id
+ * @param value 'a1'
+ * @returns [{id: 'a1', name: 'n1'}]
+ */
+const filterItemByPath = <T>(arr: T[], path: string, value: any): T[] => arr.filter((e) => value === ObjectUtil.getField(e, path));
+
+/**
+* 根据path的对应的value集合，从arr里查找
+* @param arr [{id: 'a1', name: 'n1'}, {id: 'a2', name: 'n2'}, {id: 'a3', name: 'n3'}]
+* @param path  id
+* @param values ['a1', 'a2']
+* @returns [{id: 'a1', name: 'n1'}, {id: 'a2', name: 'n2'}]
+*/
+const filterItemListByPaths = <T>( arr: T[], path: string, values: any[] ): T[] => {
+  return arr.reduce((rs, next) => {
+    values.includes(ObjectUtil.getField(next, path)) && rs.push(next);
+    return rs;
+  }, [] as T[]);
+};
+
+/**
+ * 判断是否在列表内
+ */
+const includes = (arr: any[], fun: (item: any) => boolean) => arr.some((i) => fun(i));
 
 /**
  * 创建并初始化一个新数组
@@ -88,33 +151,6 @@ const uniqueSort = (arr: any): any[] => unique(arr).sort();
 
 const mapByKey = (list: { [K: string]: any }[], k = 'id') => list.map((i) => i[k]);
 
-/**
- * TODO 可替换
- * 比较两个数组值是否相等
- * @param arr
- * @param target
- * @returns
- */
-const equals = (arr: string | any[], target: string | any[]) => {
-  // if the other array is a falsy value, return
-  if (!target) return false;
-
-  // compare lengths - can save a lot of time
-  if (arr.length !== target.length) return false;
-
-  for (let i = 0, l = arr.length; i < l; i++) {
-    // Check if we have nested arrays
-    if (arr[i] instanceof Array && target[i] instanceof Array) {
-      // recurse into the nested arrays
-      if (!arr[i].equals(target[i])) return false;
-    } else if (arr[i] !== target[i]) {
-      // Warning - two different object instances will never be equal: {x:20} != {x:20}
-      return false;
-    }
-  }
-  return true;
-};
-
 const isNotEmpty = (arr: any): boolean => arr && !isEmpty(arr) && arr?.length > 0;
 
 /**
@@ -164,55 +200,11 @@ const omit = <T extends Raw | Record<any, any>>( list: T[], customizer: any[] | 
       }
       return rs;
     }, [] as T[]);
-  } 
+  }
   if (isFunction(customizer)) return list.filter((i) => !customizer(i));
   return list;
 };
 
-/**
- * 根据path对应的value，从arr里查找
- * @param arr [{id: 'a1', name: 'n1'}, {id: 'a2', name: 'n2'}]
- * @param path  id
- * @param value 'a1'
- * @returns [{id: 'a1', name: 'n1'}]
- */
-const filterItemByPath = <T>(arr: T[], path: string, value: any): T[] => arr.filter((e) => value === ObjectUtil.getField(e, path));
-
-/**
- * 根据path的对应的value集合，从arr里查找
- * @param arr [{id: 'a1', name: 'n1'}, {id: 'a2', name: 'n2'}, {id: 'a3', name: 'n3'}]
- * @param path  id
- * @param values ['a1', 'a2']
- * @returns [{id: 'a1', name: 'n1'}, {id: 'a2', name: 'n2'}]
- */
-const filterItemListByPaths = <T>( arr: T[], path: string, values: any[] ): T[] => {
-  return arr.reduce((rs, next) => {
-    values.includes(ObjectUtil.getField(next, path)) && rs.push(next);
-    return rs;
-  }, [] as T[]);
-};
-
-/**
- * 判断是否在列表内
- */
-const includes = (arr: any[], fun: (item: any) => boolean) => arr.some((i) => fun(i));
-
-const add = <T, S>(arr: T[], item: S): T[] => arr.map((i) => assign(cloneDeep(item), i));
-
 export default {
-  add,
-  push,
-  pushByIndex,
-  remove,
-  unique,
-  uniqueSort,
-  mapByKey,
-  equals,
-  isNotEmpty,
-  pick,
-  omit,
-  filterItemByPath,
-  filterItemListByPaths,
-  includes,
-  initArray
+  assign, equals, filterItemByPath, filterItemListByPaths, includes, initArray, isNotEmpty, mapByKey, omit, pick, push, pushByIndex, remove, unique, uniqueSort
 } as const;
