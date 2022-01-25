@@ -9,6 +9,24 @@ import { ObjectType } from './types';
 const select = {
 
   /**
+   * 把 K V 结构的对象转换成数组
+   * @param obj {1: 'a1', 2: 'b2}
+   * @param customizer {key: 'id', value: 'name' }
+   * @returns [{id: 1, name: 'a1'}, {id: 2, name: 'b2'}]
+   */
+  objectToArray: (obj: ObjectType, customizer: {key: string; value: string} | ((item: [string, any]) => ObjectType) = { key: 'id', value: 'name' }): ObjectType[] => {
+    if (isEmpty(obj)) return [] as ObjectType[];
+    return Object.entries(obj).reduce((rs, next) => {
+      if (isFunction(customizer)) {
+        rs.push((customizer as (item: [string, any]) => ObjectType)?.(next));
+      } else {
+        rs.push({ [(customizer as {key: string; value: string})?.key]: next[0], [(customizer as {key: string; value: string})?.value]: next[1]  });
+      }
+      return rs;
+    }, [] as ObjectType[]);
+  },
+
+  /**
    * 支持path路径，
    * @param obj { a: "aa", b: "bb", c: { c1: "c11", c2: "c12" } }
    * @param format: {value: "a", label: "c.c1"}
