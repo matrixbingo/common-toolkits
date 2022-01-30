@@ -12,36 +12,42 @@ const pattern = {
   float: /^(-?\d+)(\.\d+)?$/,
 };
 
+// private
+const toObject = ( obj: Record<string, string>, key: string, value: any ) => {
+  if (obj && obj[key]) {
+    return obj;
+  }
+  if (isFunction(value)) {
+    obj[key] = value(obj[key]);
+  } else {
+    obj[key] = value;
+  }
+  return obj;
+};
+
+// private
+const toFormat = (data: Record<string, string> | Array<Record<string, string>>, key: string, value: any ) => {
+  if (Array.isArray(data)) {
+    data.forEach((i) => toObject(i, key, value));
+  } else if (isObject(data)) {
+    toObject(data as Record<string, string>, key, value);
+  }
+};
+
+/**
+ * 针对返回值的管理, 不支持路径
+ */
 const result = {
   /**
-   * 设置默认值
+   * 对查询结果缺失的部分设置默认值
    * @param data
    * @param format
    * @returns
    */
   setDefaultValue: ( data: Record<string, string> | Array<Record<string, string>>, format: Record<string, any> ): Record<string, string> | Array<Record<string, string>> => {
-    const toObject = ( obj: Record<string, string>, key: string, defaultValue: any ) => {
-      if (obj && obj[key]) {
-        return obj;
-      }
-      if (isFunction(defaultValue)) {
-        obj[key] = defaultValue(obj[key]);
-      } else {
-        obj[key] = defaultValue;
-      }
-      return obj;
-    };
-
-    const toFormat = ( item: Record<string, string> | Array<Record<string, string>>, key: string, defaultValue: any ) => {
-      if (Array.isArray(data)) {
-        data.forEach((i) => toObject(i, key, defaultValue));
-      } else if (isObject(data)) {
-        toObject(item as Record<string, string>, key, defaultValue);
-      }
-    };
-
     if (!isEmpty(format)) {
-      Object.keys(format).forEach((key) => toFormat(data, key, format[key]));
+      // Object.keys(format).forEach((key) => toFormat(data, key, format[key]));
+      Object.entries(format).forEach((kv) => toFormat(data, kv[0], kv[1]));
     }
     return data;
   },
@@ -77,6 +83,9 @@ const cleanObject = (object: Record<any, any>, customizer: any[] | ((item: any) 
   return result;
 };
 
+/**
+ * 针对参数的管理
+ */
 const params = {
   /**
    * 给参数添加属性值
@@ -84,9 +93,13 @@ const params = {
    * @param args
    * @returns
    */
-  extends: ( param: Record<string | number, any>, args: { customizer: (item: Record<string | number, any>) => boolean; item: Record<string | number, any> }[] ): Record<string | number, any> => {
+  extends: ( param: Record<string | number, any>, args: { need?: (item: Record<string | number, any>) => boolean; item: Record<string | number, any> }[]): Record<string | number, any> => {
     return args.reduce((rs, next) => {
-      if (next.customizer(next.item)) {
+      if (next.need && next.need(next.item)) {
+        forEach(next.item, (v, k) => {
+          ObjectUtil.setField(param, k, v);
+        });
+      } else {
         forEach(next.item, (v, k) => {
           ObjectUtil.setField(param, k, v);
         });
@@ -167,6 +180,13 @@ const unknown = {
 };
 
 const tree = {
+  /**
+   * 树形结构里搜索
+   * @param array
+   * @param children
+   * @param customizer
+   * @returns
+   */
   filter: ( array: any[], children = 'children', customizer = (object: { text: string }) => object.text === '' ) => {
     const getNodes = ( result: any[], object: { text: string; [x: string]: any } ) => {
       if (customizer(object)) {
@@ -263,11 +283,5 @@ const uuid = () => {
 
 
 export default {
-  pattern,
-  result,
-  unknown,
-  tree,
-  input,
-  params,
-  uuid,
+  pattern, result, unknown, tree, input, params, uuid
 } as const;

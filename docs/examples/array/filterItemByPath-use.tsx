@@ -12,10 +12,6 @@ const Demo = () => {
   const [form] = YForm.useForm();
   const [ result, setResult ] = useState<any>();
 
-  const onValidate = (annotations) => {
-    window.console.log('annotations ---------------->', annotations);
-  }
-
   const onClick = () => {
     const { arr, path, value } = form.getFieldsValue();
     const rs = ArrayUtil.filterItemByPath(toJSON(arr), path, value);
@@ -24,13 +20,14 @@ const Demo = () => {
 
   const reset = () => {
     form.resetFields();
+    onClick();
   }
 
   return (<>
     <CollapsibleCard title="示例" defaultCollapsed={true}>
       <YForm form={form} initialValues={initialValues}>
         {[
-          { label: 'arr   (参数1)', type: 'codeEditorCard', name: 'arr', componentProps: { onValidate } },
+          { label: 'arr   (参数1)', type: 'codeEditorCard', name: 'arr'},
           { label: 'path  (参数2)', type: 'input', name: 'path' },
           { label: 'value (参数3)', type: 'input', name: 'value' },
           {

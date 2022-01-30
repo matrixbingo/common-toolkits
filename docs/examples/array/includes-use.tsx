@@ -9,8 +9,6 @@ import { compile, toFn, toJSON } from '../base/util';
 
 const initialValues = { arr: [{ a : 1, b: 2 }, { a : 11, b: 22 }, { a : 22, b: 33 }], fun: (item) => item.a > 2 };
 
-
-
 const Demo = () => {
   const [form] = YForm.useForm();
   const [ result, setResult ] = useState<any>();
@@ -23,6 +21,7 @@ const Demo = () => {
 
   const reset = () => {
     form.resetFields();
+    onClick();
   }
 
   return (<CollapsibleCard title="示例" defaultCollapsed={true}>

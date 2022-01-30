@@ -5,6 +5,11 @@ import DataUtil from './data-util';
 import ArrayUtil from './array-util';
 import { ObjectType } from './types';
 
+// TODO 可替换
+const equals = (a: Array<any> | ObjectType, b: Array<any> | ObjectType) => {
+  return Immutable.is(Immutable.fromJS(a), Immutable.fromJS(b));
+};
+
 /**
  * 判断key在object内
  * @param key
@@ -22,8 +27,7 @@ const isValidKey = ( key: string | number | symbol, object: object ): key is key
  * @param value c
  * @returns
  */
-const setValue = (
-  target: Record<string, any> | any[], key: string, value: any ): Record<any, any> => {
+const setValue = (target: Record<string, any> | any[], key: string, value: any ): Record<any, any> => {
   if (!target || !key) return { key: value };
   if (key === '__proto__') {
     Object.defineProperty(target, key, {
@@ -112,10 +116,6 @@ const setField = (target: Record<any, any>, path: string, value: any) => {
   return target;
 };
 
-// TODO 可替换
-const equals = (a: Array<any> | ObjectType, b: Array<any> | ObjectType) => {
-  return Immutable.is(Immutable.fromJS(a), Immutable.fromJS(b));
-};
 
 /**
  * obj中是否存在value
@@ -176,8 +176,10 @@ const omit = ( obj: Record<any, any>, customizer: string[] | ((val: any) => bool
   if (isArray(customizer)) {
     const keys = Object.keys(obj);
     return customizer.reduce((rs, path) => {
-      if(path.includes('.')){
-       // TODO
+      if(isString(path) && path.includes('.')){
+        // TODO
+        window.console.warn('omit暂不支持path', );
+        return rs;
       } else {
         if (keys.includes(path)) {
           rs = lodash.assign(rs, lodash.omit(obj, [path]));
@@ -237,12 +239,5 @@ const trim = <T extends ObjectType | ObjectType[]>( data: T, chars?: string ): T
 
 
 export default {
-  getField,
-  setField,
-  equals,
-  isValidKey,
-  some,
-  pick,
-  omit,
-  trim,
+  equals, getField, isValidKey, omit, pick, setField, some, trim,
 } as const;

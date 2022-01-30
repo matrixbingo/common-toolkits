@@ -1,7 +1,69 @@
-import lodash, { isArray, isFunction, isObject } from 'lodash';
+import lodash, {isEmpty, isArray, isFunction, isObject } from 'lodash';
 import ObjectUtil from './object-util';
 import ArrayUtil from './array-util';
 import { ObjectType } from './types';
+
+const mapKeys = <T extends object | object[]>(target: T, customizer: object | ((value: any, key: any) => any) ): T => {
+  if(isArray(<object[]>target)){
+      return (<object[]>target).map((ele: Record<any, any>) => {
+        if (isObject(ele)) {
+          return objectMapKeys(ele, customizer);
+        }
+        return ele;
+      }) as T;
+  } else if(isObject(target)) {
+    return objectMapKeys(target, customizer) as T;
+  }
+  return target;
+};
+
+/**
+ * @param obj
+ * @param customizer 如果是function则默认lodash，如果是object，则key值转换
+ * @returns
+ */
+const objectMapKeys = ( obj: object, customizer: object | ((value: any, key: any) => any) ): object => {
+  if (isFunction(customizer)) return lodash.mapKeys(obj, customizer);
+  return Object.fromEntries(Object.entries(obj).map(([k, v]) => [customizer[k] || k, v]) );
+};
+
+/**
+ * 递归对象,或数组 null转为''
+ * @param data
+ * @returns
+ */
+const nullToString = (data: Record<string, any> | Record<string, any>[]) => {
+  if (isObject(data)) {
+    // Object.entries(data).forEach(([key, value]) => {
+    //   if (data[key] === null) {
+    //     data[key] = '';
+    //   } else {
+    //     if (Array.isArray(data[key])) {
+    //       data[key] = data[key].map((z: any) => {
+    //         return nullToString(z);
+    //       });
+    //     }
+    //     if (isObject(data[key])) {
+    //       data[key] = nullToString(data[key]);
+    //     }
+    //   }
+    // });
+  } else if (isArray(data)) {
+      (data as Array<any>)?.forEach((item) => nullToString(item));
+  }
+  return data;
+};
+
+const numberArrToStringArr = (arr: number[]): string[] => arr.map((i) => String(i));
+
+const stringArrToMumberArr = (arr: string[]): number[] => arr.map((i) => Number(i));
+
+
+
+/**
+ * TODO 操作
+ */
+const options = {};
 
 /**
  * to SelectDataSourceType
@@ -62,7 +124,7 @@ const select = {
 
   /**
    * options : [{ id: '1', name: 'aa' },{ id: '2', name: 'bb' }]
-   * key: id, name 
+   * key: id, name
    * return :  [ '1':  { text: 'aa' },  '2': { text: 'bb' }]
    */
   transformSelect: (options: {[k: string]: any}[], key = 'id', name = 'name'): {[k: string | number]: any} => {
@@ -70,8 +132,12 @@ const select = {
     ArrayUtil.isNotEmpty(options) && options.forEach((i) => valueEnum[i[key]] = { text: i[name] });
     return valueEnum;
   },
-
 };
+
+const toArrByPath = (arr: any[], path: string): any[] => arr.reduce((list, next) => {
+  list.push(ObjectUtil.getField(next, path));
+  return list;
+}, [] as any[]);
 
 /**
  * 获取指定键生成数组，select all等使用, key支持path
@@ -81,92 +147,19 @@ const select = {
  */
 const toArrByPathUnique = (arr: any[], path: string): any[] =>  arr.reduce((list, next) => ArrayUtil.push(list, ObjectUtil.getField(next, path)), []);
 
-const toArrByPath = (arr: any[], path: string): any[] => arr.reduce((list, next) => {
-  list.push(ObjectUtil.getField(next, path));
-  return list;
-}, [] as any[]);
-
 /**
  * 与toArrByPath类似，依赖toArrByPath,输出多组
  * @param arr  [{id: 'a1', name: 'n1'}, {id: 'a2', name: 'n2'}]
  * @param Paths ['id', 'name']
  * @returns {id:['a1', 'a2'], name:['n1', 'n2']}
  */
-const  toArrByPaths = (arr: any[], paths: string[]): any => {
+const toArrByPaths = (arr: any[], paths: string[]): any => {
   return paths.reduce((rs, path) => {
     rs[path] = toArrByPath(arr, path);
     return rs;
   }, {} as any);
 };
 
-/**
- * 递归对象,或数组 null转为''
- * @param data
- * @returns 
- */
-const nullToString = (data: Record<string, any> | Record<string, any>[]) => {
-  if (isObject(data)) {
-    // Object.entries(data).forEach(([key, value]) => {
-    //   if (data[key] === null) {
-    //     data[key] = '';
-    //   } else {
-    //     if (Array.isArray(data[key])) {
-    //       data[key] = data[key].map((z: any) => {
-    //         return nullToString(z);
-    //       });
-    //     }
-    //     if (isObject(data[key])) {
-    //       data[key] = nullToString(data[key]);
-    //     }
-    //   }
-    // });
-  } else if (isArray(data)) {
-      (data as Array<any>)?.forEach((item) => nullToString(item));
-  }
-  return data;
-};
-
-const numberArrToStringArr = (arr: number[]): string[] => arr.map((i) => String(i));
-
-const stringArrToMumberArr = (arr: string[]): number[] => arr.map((i) => Number(i));
-
-/**
- * @param obj
- * @param customizer 如果是function则默认lodash，如果是object，则key值转换
- * @returns
- */
-const objectMapKeys = ( obj: object, customizer: object | ((value: any, key: any) => any) ): object => {
-  if (isFunction(customizer)) return lodash.mapKeys(obj, customizer);
-  return Object.fromEntries(Object.entries(obj).map(([k, v]) => [customizer[k] || k, v]) );
-};
-
-const mapKeys = <T extends object | object[]>(target: T, customizer: object | ((value: any, key: any) => any) ): T => {
-  if(isArray(<object[]>target)){
-      return (<object[]>target).map((ele: Record<any, any>) => {
-        if (isObject(ele)) {
-          return objectMapKeys(ele, customizer);
-        }
-        return ele;
-      }) as T;
-  } else if(isObject(target)) {
-    return objectMapKeys(target, customizer) as T;
-  }
-  return target;
-};
-
-/**
- * TODO 操作
- */
-const options = {};
-
 export default {
-  select,
-  options,
-  toArrByPath,
-  toArrByPathUnique,
-  toArrByPaths,
-  nullToString,
-  numberArrToStringArr,
-  stringArrToMumberArr,
-  mapKeys,
+  mapKeys, nullToString, numberArrToStringArr, objectMapKeys, options, select, stringArrToMumberArr, toArrByPath, toArrByPathUnique, toArrByPaths,
 } as const;

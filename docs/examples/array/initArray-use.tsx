@@ -5,7 +5,7 @@ import ReactJson from 'react-json-view'
 import { YForm } from 'aem-ui-forms';
 import { CollapsibleCard } from 'aem-ui';
 
-const initialValues = { number: 1 };
+const initialValues = { number: 3 };
 
 const Demo = () => {
   const [form] = YForm.useForm();
@@ -19,6 +19,7 @@ const Demo = () => {
 
   const reset = () => {
     form.resetFields();
+    onClick();
   }
 
   return (<CollapsibleCard title="示例" defaultCollapsed={true}>

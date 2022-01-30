@@ -14,7 +14,7 @@ const Demo = () => {
   const [ result, setResult ] = useState<any>();
 
   const onValidate = (annotations) => {
-    window.console.log('annotations ---------------->', annotations);
+    // window.console.log('annotations ---------------->', annotations);
   }
 
   const onClick = () => {
@@ -25,6 +25,7 @@ const Demo = () => {
 
   const reset = () => {
     form.resetFields();
+    onClick();
   }
 
   return (<>

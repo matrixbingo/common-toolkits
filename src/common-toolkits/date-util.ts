@@ -2,6 +2,19 @@ import moment, { DurationInputArg2, Moment, unitOfTime } from 'moment';
 import { DateType, DateTypeInterface, FormatDate, Period } from './types';
 
 /**
+ * 比较两个时间
+ * @param beginDate
+ * @param endDate
+ * @param format
+ * @returns
+ */
+const comparison = ( beginDate: DateTypeInterface, endDate: DateTypeInterface, format = FormatDate.DAY_FORMAT ): boolean => {
+  const _beginDate = toMoment(beginDate, format);
+  const _endDate = toMoment(endDate, format);
+  return _endDate.diff(_beginDate) > 0;
+};
+
+/**
  * 格式化输出当前时间
  * @param format
  * @returns
@@ -9,12 +22,18 @@ import { DateType, DateTypeInterface, FormatDate, Period } from './types';
 const currFormat = (format = FormatDate.SECONDS_FORMAT) => moment().format(format);
 
 /**
- * 获取时间戳
+ *  时间差
+ * @param beginDate
+ * @param endDate
+ * @param _period
+ * @param format
  * @returns
  */
-const timeStamp = (): string => currFormat(FormatDate.SECONDS_FORMAT);
-
-const toMoment = ( value: DateTypeInterface, format = FormatDate.DAY_FORMAT ): Moment => moment.isMoment(value) ? value : moment(value, format);
+const diff = ( beginDate: DateTypeInterface, endDate: DateTypeInterface, _period: Period = Period.day, format = FormatDate.DAY_FORMAT ): number => {
+  const _beginDate = toMoment(beginDate, format);
+  const _endDate = toMoment(endDate, format);
+  return _endDate.diff(_beginDate, Period[_period] as unitOfTime.Diff);
+};
 
 /**
  * 时间范围 当天，当周，当月，当季，当年 等
@@ -34,37 +53,13 @@ const range = <T extends Moment | string>(_period: Period, rest: { dateType?: Da
 };
 
 /**
- *  时间差
- * @param beginDate
- * @param endDate
- * @param _period
- * @param format
+ * 获取时间戳
  * @returns
  */
-const diff = ( beginDate: DateTypeInterface, endDate: DateTypeInterface, _period: Period, format = FormatDate.DAY_FORMAT ): number => {
-  const _beginDate = toMoment(beginDate, format);
-  const _endDate = toMoment(endDate, format);
-  return _endDate.diff(_beginDate, Period[_period] as unitOfTime.Diff);
-};
+const timeStamp = (format = FormatDate.SECONDS_FORMAT): string => currFormat(format);
 
-/**
- * 比较两个时间
- * @param beginDate
- * @param endDate
- * @param format
- * @returns
- */
-const comparison = ( beginDate: DateTypeInterface, endDate: DateTypeInterface, format = FormatDate.DAY_FORMAT ): boolean => {
-  const _beginDate = toMoment(beginDate, format);
-  const _endDate = toMoment(endDate, format);
-  return _endDate.diff(_beginDate) > 0;
-};
+const toMoment = ( value: DateTypeInterface, format = FormatDate.DAY_FORMAT ): Moment => moment.isMoment(value) ? value : moment(value, format);
 
 export default {
-  currFormat,
-  timeStamp,
-  toMoment,
-  range,
-  diff,
-  comparison,
+  comparison, currFormat, diff, range, timeStamp, toMoment
 } as const;

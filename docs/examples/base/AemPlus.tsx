@@ -3,6 +3,7 @@ import { YForm } from 'aem-ui-forms';
 import { YFormItemsType } from 'aem-ui-forms/lib/YForm/ItemsType';
 import { SearchProps } from 'antd/lib/input';
 import { CodeEditorCard, CodeEditorCardProps, DatePickerFormat, DatePickerFormatProps, InputAddonBefore, InputAddonBeforeProps, InputRange, InputRangeProps, InputSearch, InputSelectValue, InputSelectValueProps, InputStringNumber, InputStringNumberProps, RangePickerFormat, RangePickerFormatProps } from 'aem-ui';
+import 'antd/dist/antd.css';
 
 declare module 'aem-ui-forms/lib/YForm/ItemsType' {
   export interface YFormItemsTypeDefine {

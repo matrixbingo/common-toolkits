@@ -43,7 +43,7 @@ export const useParallel = ( ...loadings: boolean[] ): { readonly loading: boole
     if (preLoadings.length !== curLoadings.length) return true;
     return preLoadings.some((v, i) => curLoadings[i] !== v);
   };
-  
+
   const update = () => {
     prevRef.current?.forEach((v, i) => {
       if (v === false && curRef.current?.[i] === true) {
@@ -54,15 +54,15 @@ export const useParallel = ( ...loadings: boolean[] ): { readonly loading: boole
       }
     });
   };
-  
+
   if (shouldUpdate(curRef.current || [], loadings)) {
     prevRef.current = curRef.current;
     curRef.current = loadings;
     update();
   }
-  
+
   const ready = arr.every((i) => i === 2);
-  
+
   return { loading, ready } as const;
 };
 

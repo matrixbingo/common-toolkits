@@ -1,9 +1,11 @@
-
+import '../base/AemPlus';
 import React, { useState } from 'react';
 import { ArrayUtil } from 'common-toolkits';
 import ReactJson from 'react-json-view'
 import { YForm } from 'aem-ui-forms';
 import { CollapsibleCard } from 'aem-ui';
+import { toJSON } from '../base/util';
+import { useMount } from 'ahooks';
 
 const initialValues = { arr: [{ a : 1, b: 2 }, { a : 11, b: 22 }], item: { c: 3} };
 
@@ -13,12 +15,13 @@ const Demo = () => {
 
   const onClick = () => {
     const { arr, item } = form.getFieldsValue();
-    const rs = ArrayUtil.assign(arr, item);
+    const rs = ArrayUtil.assign(toJSON(arr), toJSON(item));
     setResult(rs);
   }
 
   const reset = () => {
     form.resetFields();
+    onClick();
   }
 
   return (<CollapsibleCard title="示例" defaultCollapsed={true}>

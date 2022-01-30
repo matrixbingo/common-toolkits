@@ -44,11 +44,11 @@ const currency = (num: any, precision: number, separator: string): string => {
 
 /**
  * 百分率
- * @param num 
- * @returns 
+ * @param num 0.5
+ * @returns "50%""
  */
-const percent = (num: string | number, _percent = '%') => {
-  if ((DataUtil.unknown.isFloat(num) || DataUtil.unknown.isInt(num)) && !isEmpty(num)) {
+const percent = (num: string | number, _percent = '%'): string => {
+  if (DataUtil.unknown.isFloat(num)) {
     return `${floor(Number(num) * 100, 2)}${_percent}`;
   }
   return '';
@@ -91,8 +91,5 @@ const json = (value: any) => {
 };
 
 export default {
-  currency,
-  thousands,
-  json,
-  percent,
+  currency, json, percent, thousands,
 } as const;
