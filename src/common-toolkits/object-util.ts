@@ -174,19 +174,21 @@ const pick = ( obj: Record<any, any>, customizer: string[] | ((val: any) => bool
  */
 const omit = ( obj: Record<any, any>, customizer: string[] | ((val: any) => boolean) ): Record<any, any> => {
   if (isArray(customizer)) {
-    const keys = Object.keys(obj);
-    return customizer.reduce((rs, path) => {
-      if(isString(path) && path.includes('.')){
-        // TODO
-        window.console.warn('omit暂不支持path', );
-        return rs;
-      } else {
-        if (keys.includes(path)) {
-          rs = lodash.assign(rs, lodash.omit(obj, [path]));
-        }
-      }
-      return rs;
-    }, {});
+    return lodash.omit(obj, customizer);
+    //  const keys = Object.keys(obj);
+    // return customizer.reduce((rs, path) => {
+    //   if(isString(path) && path.includes('.')){
+    //     // TODO
+    //     window.console.warn('omit暂不支持path', );
+    //     return rs;
+    //   } else {
+    //     if (keys.includes(path)) {
+    //       window.console.log(' path ---------------->', path);
+    //       rs = lodash.assign(rs, lodash.omit(obj, [path]));
+    //     }
+    //   }
+    //   return rs;
+    // }, {});
   }
   if (isFunction(customizer)) {
     return Object.keys(obj).reduce((rs, path) => {
