@@ -4,6 +4,20 @@ import DataUtil from './data-util';
 import { ObjectType, Raw } from './types';
 
 /**
+ * TODO 添加说明文档
+ * 给数组对象添加属性
+ * @param arr
+ * @param props
+ * @returns
+ */
+export const addProps = (arr: Record<any, any>[], props: Record<any, any>) => {
+  return arr.reduce((rs, next) => {
+    rs.push({ ...next, ...props });
+    return rs;
+  }, []);
+};
+
+/**
  * 给对象数组的每一个对象添加属性
  * @param arr
  * @param item
@@ -42,10 +56,15 @@ const equals = (arr: string | any[], target: string | any[]) => {
  * 根据path对应的value，从arr里查找
  * @param arr [{id: 'a1', name: 'n1'}, {id: 'a2', name: 'n2'}]
  * @param path  id
- * @param value 'a1'
+ * @param customizer 'a1'
  * @returns [{id: 'a1', name: 'n1'}]
  */
-const filterItemByPath = <T>(arr: T[], path: string, value: any): T[] => arr.filter((e) => value === ObjectUtil.getField(e, path));
+const filterItemByPath = <T>(arr: T[], path: string, customizer: any | ((item: any, p: any) => boolean)): T[] => {
+  if (isFunction(customizer)){
+    return arr.filter((e) => customizer(e, ObjectUtil.getField(e, path)));
+  }
+  return arr.filter((e) => customizer === ObjectUtil.getField(e, path));
+};
 
 /**
 * 根据path的对应的value集合，从arr里查找
@@ -226,5 +245,5 @@ const unique = <T>(arr: T[], customizer?: (val: T) => any): Array<T> => {
 const uniqueSort = (arr: any): any[] => unique(arr).sort();
 
 export default {
-  assign, equals, filterItemByPath, filterItemListByPaths, includes, initArray, isNotEmpty, mapByKey, merge, omit, pick, push, pushByIndex, remove, unique, uniqueSort
+  addProps, assign, equals, filterItemByPath, filterItemListByPaths, includes, initArray, isNotEmpty, mapByKey, merge, omit, pick, push, pushByIndex, remove, unique, uniqueSort
 } as const;

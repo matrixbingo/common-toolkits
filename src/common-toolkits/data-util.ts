@@ -1,4 +1,4 @@
-import lodash, { isObject, isEmpty, forEach, isNumber, isBoolean, isString, isArray, isFunction } from 'lodash';
+import lodash, { isObject, isEmpty, forEach, isNumber, isBoolean, isString, isArray, isFunction, has, get, set } from 'lodash';
 import isJSON from '@stdlib/assert-is-json';
 import isJSONObj from 'isjsonobj';
 import { ObjectUtil } from '..';
@@ -219,6 +219,50 @@ const tree = {
     }
     loop(treeData, 1);
     return maxLevel;
+  },
+
+  /**
+   * 从树形结构中去对应的值
+   * @param arr
+   * @param children
+   * @param key
+   * @param list
+   * @param filter
+   * @returns
+   */
+  valuesFromTree: (arr: any[], children = 'children', key = 'key', list: any[] = [], filter: (item: any) => boolean = () => true) => {
+    arr.forEach((i) => {
+      if (has(i, key) && filter(i)) {
+        list.push(get(i, key));
+      }
+      const childrens = get(i, children);
+      if (isArray(childrens)) {
+        tree.valuesFromTree(childrens, children, key, list);
+      }
+    });
+    return list;
+  },
+
+  /**
+   * 从树形结构中获取键值对
+   * @param arr
+   * @param children
+   * @param key
+   * @param list
+   * @param filter
+   * @returns
+   */
+  keyValuesFromTree: (arr: any[], children = 'children', key = 'key', value = 'value', obj: any = {}, filter: (item: any) => boolean = () => true) => {
+    arr.forEach((i) => {
+      if (has(i, key) && has(i, value) && filter(i)) {
+        set(obj, get(i, key), get(i, value));
+      }
+      const childrens = get(i, children);
+      if (isArray(childrens)) {
+        tree.keyValuesFromTree(childrens, children, key, value, obj);
+      }
+    });
+    return obj;
   },
 };
 
