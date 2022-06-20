@@ -61,7 +61,7 @@ const equals = (arr: string | any[], target: string | any[]) => {
  */
 const filterItemByPath = <T>(arr: T[], path: string, customizer: any | ((item: any, p: any) => boolean)): T[] => {
   if (isFunction(customizer)){
-    return arr.filter((e) => customizer(e, ObjectUtil.getField(e, path)));
+    return arr.filter((e) => customizer(ObjectUtil.getField(e, path), e));
   }
   return arr.filter((e) => customizer === ObjectUtil.getField(e, path));
 };
