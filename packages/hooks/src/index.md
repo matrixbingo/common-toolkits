@@ -13,15 +13,15 @@ nav:
 ## 📦 安装
 
 ```bash
-$ npm install --save @common-toolkits/hooks
+$ npm install --save common-toolkits-hooks
 # or
-$ yarn add @common-toolkits/hooks
+$ yarn add common-toolkits-hooks
 ```
 
 ## 🔨 使用
 
 ```js
-import { useResetState, useIntervalDelay } from '@common-toolkits/hooks';
+import { useResetState, useIntervalDelay } from 'common-toolkits-hooks';
 ```
 
 ## ✨ 依赖

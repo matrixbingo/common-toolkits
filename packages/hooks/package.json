@@ -1,6 +1,6 @@
 {
-  "name": "@common-toolkits/hooks",
-  "version": "0.0.1",
+  "name": "common-toolkits-hooks",
+  "version": "0.0.01",
   "description": "hooks库",
   "keywords": [
     "hooks"

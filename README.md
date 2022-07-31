@@ -5,7 +5,7 @@
 
 ```
   方法库： common-toolkits
-hooks库： @common-toolkits/hooks
+hooks库： common-toolkits-hooks
 ```
 
 ## 起步

@@ -23,7 +23,7 @@ const [state, setState, resetState] = useResetState(0);
 
 ```tsx
 import React, { useState } from 'react';
-import { useResetState } from '@common-toolkits/hooks';
+import { useResetState } from 'common-toolkits-hooks';
 import { Button, Space } from 'antd';
 import 'antd/dist/antd.css';
 

@@ -10,7 +10,7 @@
     "deploy": "bash deploy.sh",
     "build": "lerna run build",
     "build:c": "lerna run build --scope=common-toolkits",
-    "build:h": "lerna run build --scope=@common-toolkits/hooks",
+    "build:h": "lerna run build --scope=common-toolkits-hooks",
     "build:u": "lerna run build --scope=@common-toolkits/utils",
     "pub": "lerna publish"
   },

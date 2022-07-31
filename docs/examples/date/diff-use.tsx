@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { DateUtil, FormatDate, Period } from 'common-toolkits';
-import { useResetState } from '@common-toolkits/hooks';
+import { useResetState } from 'common-toolkits-hooks';
 import { YForm } from 'aem-ui-forms';
 import { CollapsibleCard } from 'aem-ui';
 
