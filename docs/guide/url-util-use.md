@@ -1,7 +1,7 @@
 ---
 title: UrlUtil
 nav:
-  title: 指南
+  title: 方法库
   order: 3
 ---
 

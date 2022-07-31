@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
-import { UrlUtil, useResetState } from 'common-toolkits';
+import { UrlUtil } from 'common-toolkits';
+import { useResetState } from '@common-toolkits/hooks';
 import ReactJson from 'react-json-view'
 import { YForm } from 'aem-ui-forms';
 import { CollapsibleCard } from 'aem-ui';

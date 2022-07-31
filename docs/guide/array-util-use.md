@@ -1,7 +1,7 @@
 ---
 title: ArrayUtil
 nav:
-  title: 指南
+  title: 方法库
   order: 3
 ---
 
@@ -14,6 +14,11 @@ ArrayUtil.assign(arr, item);
 ```
 <code src="../examples/array/assign-use" />
 
+### compareIntersection
+计算两个集合的交集，给name添加boolean值
+```jsx | pure
+ArrayUtil.compareIntersection(arr, list, { path: 'labelCode', name: 'checked', useList: true });
+```
 ### filterItemByPath
 
 根据path对应的value，从arr里查找
@@ -97,6 +102,12 @@ ArrayUtil.pushByIndex(arr, index, item);
 ArrayUtil.remove(arr, customizer);
 ```
 <code src="../examples/array/remove-use" />
+
+### removeByIndex
+删除指定值,customizer是默认对简单类型删除
+```jsx | pure
+ArrayUtil.removeByIndex(arr, customizer);
+```
 
 ### unique
 删除指定值,customizer是默认对简单类型删除

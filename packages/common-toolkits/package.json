@@ -1,0 +1,60 @@
+{
+  "name": "common-toolkits",
+  "version": "2.0.0",
+  "description": "common toolkits",
+  "author": "Matrix",
+  "homepage": "https://github.com/matrixbingo/common-toolkits#readme",
+  "directories": {
+    "src": "src",
+    "test": "__tests__"
+  },
+  "files": [
+    "es", "lib"
+  ],
+  "sideEffects": [
+    "es/**/style/*",
+    "lib/**/style/*",
+    "*.less"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matrixbingo/common-toolkits.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build": "father-build"
+  },
+  "bugs": {
+    "url": "https://github.com/matrixbingo/common-toolkits/issues"
+  },
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
+    "IE 11",
+    "not IE 10"
+  ],
+  "dependencies": {
+    "@stdlib/assert-is-json": "^0.0.7",
+    "isjsonobj": "^1.0.0"
+  },
+  "peerDependencies": {
+    "immutable": "^4.0.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.170",
+    "prettier": "^2.2.1",
+    "yorkie": "^2.0.0"
+  },
+  "license": "MIT"
+}

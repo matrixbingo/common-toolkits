@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { Button, Input, Row} from 'antd';
-import 'antd/dist/antd.css';
 import { ArrayUtil } from 'common-toolkits';
 import '../base/AemPlus';
 

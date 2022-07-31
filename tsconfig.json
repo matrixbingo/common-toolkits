@@ -11,12 +11,12 @@
     "strict": true,
     "paths": {
       "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"],
-      "common-toolkits": ["./dist"]
+      "@@/*": ["src/.umi/*"]
     },
     "allowSyntheticDefaultImports": true,
     "suppressImplicitAnyIndexErrors": true,
   },
+  "include": ["packages/*/src"],
   "exclude": [
     "node_modules",
     "lib",
