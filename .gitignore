@@ -17,9 +17,20 @@
 
 # misc
 .DS_Store
+npm-debug.log*
+yarn-error.log
 
 # umi
 .umi
 .umi-production
 .umi-test
 .env.local
+
+/.vscode
+/.idea
+
+# visual studio code
+.history
+*.log
+functions/*
+.temp/**
