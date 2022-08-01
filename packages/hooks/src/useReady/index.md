@@ -1,5 +1,5 @@
 ---
-title: useReady
+title: useParallel
 group:
   title: Effect
   path: /effect
