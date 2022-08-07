@@ -60,6 +60,8 @@ const timeStamp = (format = FormatDate.SECONDS_FORMAT): string => currFormat(for
 
 const toMoment = ( value: DateTypeInterface, format = FormatDate.DAY_FORMAT ): Moment => moment.isMoment(value) ? value : moment(value, format);
 
+const dateIsValid = (date: string, format = FormatDate.DAY_FORMAT) => moment(date, format, true).isValid();
+
 export default {
-  comparison, currFormat, diff, range, timeStamp, toMoment
+  comparison, currFormat, dateIsValid, diff, range, timeStamp, toMoment
 } as const;

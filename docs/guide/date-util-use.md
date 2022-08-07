@@ -50,6 +50,14 @@ DateUtil.timeStamp(value, format);
 DateUtil.toMoment();
 ```
 
+### 时间格式校验
+获取时间戳
+```jsx | pure
+DateUtil.dateIsValid();
+```
+<code src="../examples/date/dateIsValid-use" />
+
+
 ## API
 
 ### comparison
@@ -102,3 +110,11 @@ DateUtil.toMoment();
 | ------ | ------------------ | ------ | ---------------------------------- | ---- |
 | value  | 时间参数 \| Moment | string | -                                  | 是   |
 | format | 时间格式           | string | FormatDate.DAY_FORMAT (YYYY-MM-DD) | 否   |
+
+
+### dateIsValid
+
+| 参数   | 说明               | 类型   | 默认值                             | 必填 |
+| ------ | ------------------ | ------ | ---------------------------------- | ---- |
+| date  | 时间参数 \| Moment | string | -                                  | 是   |
+| format | 时间格式           | string | YYYY-MM-DD | 否   |
