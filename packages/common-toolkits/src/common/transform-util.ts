@@ -109,14 +109,16 @@ const select = {
    * @param format {value: "a", label: "c.c1"}
    * @returns [ {value: 'aa', label: 'c11'}, {value: 'AA', label: 'C11'} ]
    */
-  formatArray: <T extends ObjectType>(list: ObjectType[],  format: Record<string, string>): T[] => {
+  formatArray: <T extends ObjectType>(list: any[], customizer: Record<string, string> | ((item: any) => T)): T[] => {
     const rs: T[] = [];
     if (Array.isArray(list) && list.length > 0) {
-      return list.reduce((arr, next) => ArrayUtil.push<T>(arr as T[], select.formatObject<T>(next, format)), rs) as T[];
+      if (isFunction(customizer)) {
+        return list.reduce((arr, next) => ArrayUtil.push<T>(arr, customizer(next)), rs) as T[];
+      }
+      return list.reduce((arr, next) => ArrayUtil.push<T>(arr as T[], select.formatObject<T>(next, customizer)), rs) as T[];
     }
     return rs;
   },
-
   /** *
    * JSON 格式转换 select等组件用
    */

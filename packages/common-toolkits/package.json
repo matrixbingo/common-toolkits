@@ -1,6 +1,6 @@
 {
   "name": "common-toolkits",
-  "version": "2.0.02",
+  "version": "2.0.03",
   "description": "common toolkits",
   "author": "Matrix",
   "homepage": "https://github.com/matrixbingo/common-toolkits#readme",
@@ -43,7 +43,8 @@
   ],
   "dependencies": {
     "@stdlib/assert-is-json": "^0.0.7",
-    "isjsonobj": "^1.0.0"
+    "isjsonobj": "^1.0.0",
+    "numeral": "^2.0.6"
   },
   "peerDependencies": {
     "immutable": "^4.0.0",
@@ -52,6 +53,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.170",
+    "@types/numeral": "^2.0.2",
     "prettier": "^2.2.1",
     "yorkie": "^2.0.0"
   },
