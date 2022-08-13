@@ -194,7 +194,7 @@ const pushByIndex = ( arr: ({ [x: string]: any[] } | any[])[], index: number, it
   return arr;
 };
 
-const removeByIndex = (list: Array<any>, item: any) => {
+const removeByItemIndex = (list: Array<any>, item: any) => {
   const index = list.indexOf(item);
   if (index > -1) {
     list.splice(index, 1);
@@ -213,7 +213,7 @@ const removeObjByKey = (arr: { [K: string]: unknown }[] = [], item: { [K: string
  */
 const remove = <T extends Raw | ObjectType>( arr: T[], customizer: T | ((val: T) => boolean)): Array<T> => {
   if (isString(customizer) || isNumber(customizer)) {
-    removeByIndex(arr, customizer);
+    removeByItemIndex(arr, customizer);
   }
   if (isFunction(customizer)) {
     return arr.filter((i) => !customizer(i));
@@ -250,7 +250,6 @@ function unique<T extends number | string | Record<number|string, any>>(arr: any
 const uniqueSort = (arr: any): any[] => unique(arr).sort();
 
 /**
- *
  * @param arr 计算两个集合的交集，给name添加boolean值
  * @param list
  * @param options
@@ -291,6 +290,6 @@ export default {
   mapByKey, merge,
   omit,
   pick, push, pushByIndex,
-  remove, removeByIndex, removeObjByKey,
+  remove, removeByIndex: removeByItemIndex, removeObjByKey,
   unique, uniqueSort
 } as const;

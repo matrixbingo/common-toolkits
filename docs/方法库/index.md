@@ -1,10 +1,4 @@
----
-title: 介绍
-nav:
-  title: 方法库
-  order: 1
----
-
+# 方法库
 
 ## 📦 安装
 
@@ -14,7 +8,7 @@ $ npm install --save common-toolkits
 $ yarn add common-toolkits
 ```
 
-## 🔨 使用
+## 🔨 使用举例
 
 ```js
 import { ArrayUtil, ObjectUtil } from 'common-toolkits';

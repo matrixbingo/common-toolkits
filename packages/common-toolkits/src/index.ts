@@ -9,6 +9,7 @@ export { default as TransformUtil } from './common/transform-util';
 export { default as FormatUtil } from './common/format-util';
 export { default as UrlUtil } from './common/url-util';
 export { default as NumberlUtil } from './common/number-util';
+export { default as TypeUtil } from './common/type-util';
 
 import type {
   Raw,

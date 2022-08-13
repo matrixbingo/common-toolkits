@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { DataUtil } from 'common-toolkits';
+import { TypeUtil } from 'common-toolkits';
 import { useResetState } from 'common-toolkits-hooks';
 import ReactJson from 'react-json-view'
 import { YForm } from 'aem-ui-forms';
@@ -29,7 +29,7 @@ const Demo = () => {
 
   const onClick = () => {
     const { value } = form.getFieldsValue();
-    const rs = DataUtil.unknown[mode]?.(value);
+    const rs = TypeUtil[mode]?.(value);
     setResult(rs);
   }
 

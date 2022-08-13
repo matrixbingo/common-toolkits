@@ -4,7 +4,7 @@ hero:
   desc: 日常思考博文编写,个人组件库、方法库、hooks库集成
   actions:
     - text: 开始使用
-      link: /blog
+      link: /方法库
 features:
   - icon: https://gw.alipayobjects.com/zos/bmw-prod/881dc458-f20b-407b-947a-95104b5ec82b/k79dm8ih_w144_h144.png
     title: 优质好文

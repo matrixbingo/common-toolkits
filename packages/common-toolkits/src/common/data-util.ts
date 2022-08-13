@@ -1,16 +1,7 @@
 import lodash, { isObject, isEmpty, forEach, isNumber, isBoolean, isString, isArray, isFunction, has, get, set } from 'lodash';
 import isJSON from '@stdlib/assert-is-json';
 import isJSONObj from 'isjsonobj';
-import { ObjectUtil, StringUtil } from '..';
-
-const pattern = {
-  BinENG: /^[a-zA-Z][a-zA-Z0-9_]*$/, // 英文开头
-  JSON: /[^,:{}\\[\\]0-9.\-+Eaeflnr-u \n\r\t]/,
-  int: /^(?:0|[1-9]\d*)$/,
-  peInt: /^\+?[1-9]\d*$/, //正整数，不包含0
-  neInt: /^-[1-9]\d*$/, //负整数，不包含0
-  float: /^(-?\d+)(\.\d+)?$/,
-};
+import { ObjectUtil, TypeUtil } from '..';
 
 // private
 const toObject = ( obj: Record<string, string>, key: string, value: any ) => {
@@ -150,53 +141,6 @@ const params = {
   },
 };
 
-const unknown = {
-  /**
-   * 是否数字，包含字符串
-   */
-  isInt: (value: any): Boolean => {
-    //! isNaN(parseInt(previous))
-    const type = typeof value;
-    return type === 'number' || (type !== 'symbol' && pattern.int.test(value));
-  },
-
-  /**
-   * 正整数，不包含0
-   */
-  isPeInt: (value: any): Boolean => pattern.peInt.test(value),
-
-  /**
-   * 负整数，不包含0
-   */
-  isNeInt: (value: any): Boolean => pattern.neInt.test(value),
-
-  isFloat: (value: any): Boolean => pattern.float.test(value),
-
-  isJSON: (v: any) => isJSONObj(v) || isJSON(v),
-
-  /**
-   * select, checkbox, radio等转格式
-   * @param value
-   * @returns
-   */
-  parseValue: ( value: string | ReadonlyArray<string> | number ): number | string => {
-    if (lodash.isNumber(value)) return value;
-    if (lodash.isString(value) && unknown.isInt(value)) return parseInt(value, 10);
-    return value.toString();
-  },
-
-  isVoid: (value: unknown) => value === undefined || value === null || value === '' || value === 'undefined' || value === 'null',
-
-  isFalsy: (value: unknown) => (value === 0 ? false : !value),
-
-  isValue: (value: any) => isNumber(value) || isBoolean(value) || isString(value) || isObject(value) || isArray(value) || !!value,
-
-  /**
-   * 判断字符串是否是十六进制的颜色值
-   * @param value
-   */
-  isColor: (value: string): boolean => /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(value),
-};
 
 const tree = {
   /**
@@ -292,9 +236,9 @@ const input = {
   getInt: (val: string | number) => {
     if (val === '0' || val === 0) return val;
     if (isEmpty(val)) return '';
-    if (!unknown.isInt(val)) {
+    if (!TypeUtil.isInt(val)) {
       val = (val as string).replace(/[^0-9]/gi, '');
-      if (!unknown.isInt(val)) {
+      if (!TypeUtil.isInt(val)) {
         return '';
       }
     }
@@ -309,7 +253,7 @@ const input = {
     if (isEmpty(val) || val === '.') {
       return '';
     }
-    if (!unknown.isFloat(val)) {
+    if (!TypeUtil.isFloat(val)) {
       if (val.includes('.')) {
         const arr = val.split('.');
         if (arr.length > 1) {
@@ -317,13 +261,13 @@ const input = {
           if (isEmpty(val)) {
             return '';
           }
-          if (unknown.isInt(a)) {
+          if (TypeUtil.isInt(a)) {
             return String(`${a}.${input.getInt(arr[1])}`);
           }
         }
       } else {
         const a = input.getInt(val);
-        if (unknown.isInt(a)) {
+        if (TypeUtil.isInt(a)) {
           return a;
         }
         return '';
@@ -355,5 +299,5 @@ const initRate = (rate: string | number, multiply = 100, percent = '%'): string 
 
 
 export default {
-  pattern, result, unknown, tree, input, params, uuid
+  result, tree, input, params, uuid
 } as const;
