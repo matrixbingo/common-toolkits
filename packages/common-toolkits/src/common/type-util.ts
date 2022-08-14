@@ -61,7 +61,7 @@ export default {
   pattern, isInt,
   isPeInt, isNeInt,
   isFloat,
-  isJSONFormat:isJSON, parseValue,
+  isJSON: isJSONFormat, parseValue,
   isVoid, isFalsy, isValue,
   isColor
 } as const;

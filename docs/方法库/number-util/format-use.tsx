@@ -12,7 +12,7 @@ const Demo = () => {
 
   const onClick = () => {
     const { num, format } = form.getFieldsValue();
-    const rs = NumberUtil.numberFormat(num, format);
+    const rs = NumberUtil.format(num, format);
     setResult(rs);
   }
 

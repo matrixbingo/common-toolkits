@@ -1,8 +1,8 @@
 /* eslint-disable no-return-assign */
-import lodash, { cloneDeep, isArray, isEmpty, isFunction, isNumber, isObject, isString, set } from 'lodash';
+import lodash, { cloneDeep, isArray, isFunction, isObject, isString, set } from 'lodash';
 import Immutable from 'immutable';
-import DataUtil from './data-util';
 import ArrayUtil from './array-util';
+import TypeUtil from './type-util';
 import { ObjectType } from './types';
 
 // TODO 可替换
@@ -40,7 +40,7 @@ const setValue = (target: Record<string, any> | any[], key: string, value: any )
     if (target[key]) window.console.warn('值被替换:', target, key, value);
     if (isObject(target)) {
       target[key] = value;
-    } else if (isArray(target) && DataUtil.unknown.isInt(key)) {
+    } else if (isArray(target) && TypeUtil.isInt(key)) {
       (target as any[])[Number(key)] = value;
     }
   }
@@ -60,7 +60,7 @@ const getField = ( item: Record<string | number, any> | string, path: string ) =
     try {
       if (keys.length === 1) return item[path];
       return keys.reduce(
-        (obj, key) => obj[DataUtil.unknown.parseValue(key)],
+        (obj, key) => obj[TypeUtil.parseValue(key)],
         item,
       );
     } catch (e) {
@@ -85,7 +85,7 @@ const setField = (target: Record<any, any>, path: string, value: any) => {
     if (keys.length === 1) return setValue(target, path, value);
     try {
       const rs = keys.reduce((arr, next) => {
-        if(DataUtil.unknown.isInt(next)){
+        if(TypeUtil.isInt(next)){
           arr.push({key: '[' + next +']', type: 'int'});
         }else{
           arr.push({key: next, type: 'string'});

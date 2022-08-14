@@ -1,5 +1,5 @@
 import { floor, isEmpty, isString } from 'lodash';
-import DataUtil from './data-util';
+import TypeUtil from './type-util';
 
 /**
  * @param num
@@ -48,7 +48,7 @@ const currency = (num: any, precision: number, separator: string): string => {
  * @returns "50%""
  */
 const percent = (num: string | number, _percent = '%'): string => {
-  if (DataUtil.unknown.isFloat(num)) {
+  if (TypeUtil.isFloat(num)) {
     return `${floor(Number(num) * 100, 2)}${_percent}`;
   }
   return '';
