@@ -4,7 +4,7 @@
 
 
 ## 代码演示
-<code src="./type-util-use" />
+<code src="./type-util-use.tsx" />
 
 ### 基础用法
 ```jsx | pure

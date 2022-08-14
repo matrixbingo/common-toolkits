@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./isValidKey-use" />
+<code src="./isValidKey-use.tsx" />
 
 ## API
 ```jsx | pure

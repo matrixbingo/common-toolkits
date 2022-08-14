@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./filterItemByPath-use" />
+<code src="./filterItemByPath-use.tsx" />
 
 
 ## API

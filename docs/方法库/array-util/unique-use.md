@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./unique-use" />
+<code src="./unique-use.tsx" />
 
 
 ## API

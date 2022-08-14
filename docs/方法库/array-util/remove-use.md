@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./remove-use" />
+<code src="./remove-use.tsx" />
 
 
 ## API

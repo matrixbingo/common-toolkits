@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./pushByIndex-use" />
+<code src="./pushByIndex-use.tsx" />
 
 
 ## API

@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./extendParam-use" />
+<code src="./extendParam-use.tsx" />
 
 
 ## API

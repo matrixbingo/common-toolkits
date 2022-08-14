@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./range-use" />
+<code src="./range-use.tsx" />
 
 
 ## API

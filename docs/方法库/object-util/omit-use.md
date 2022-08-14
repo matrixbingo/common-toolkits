@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./omit-use" />
+<code src="./omit-use.tsx" />
 
 ## API
 ```jsx | pure

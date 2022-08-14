@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./merge-use" />
+<code src="./merge-use.tsx" />
 
 
 ## API

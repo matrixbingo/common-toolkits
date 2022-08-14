@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./trim-use" />
+<code src="./trim-use.tsx" />
 
 ## API
 ```jsx | pure

@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./timeStamp-use" />
+<code src="./timeStamp-use.tsx" />
 
 
 ## API

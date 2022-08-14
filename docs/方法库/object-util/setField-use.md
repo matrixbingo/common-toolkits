@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./setField-use" />
+<code src="./setField-use.tsx" />
 
 ## API
 ```jsx | pure

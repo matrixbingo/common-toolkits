@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./some-use" />
+<code src="./some-use.tsx" />
 
 ## API
 ```jsx | pure

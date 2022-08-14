@@ -4,7 +4,7 @@
 
 
 ## 代码演示
-<code src="./input-use" />
+<code src="./input-use.tsx" />
 
 ### 基础用法
 ```jsx | pure

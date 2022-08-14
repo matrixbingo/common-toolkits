@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./initArray-use" />
+<code src="./initArray-use.tsx" />
 
 
 ## API

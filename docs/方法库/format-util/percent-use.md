@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./percent-use" />
+<code src="./percent-use.tsx" />
 
 
 ## API

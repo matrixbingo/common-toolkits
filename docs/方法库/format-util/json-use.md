@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./json-use" />
+<code src="./json-use.tsx" />
 
 
 ## API

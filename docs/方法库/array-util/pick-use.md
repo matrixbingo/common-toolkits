@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./pick-use" />
+<code src="./pick-use.tsx" />
 <code src="./pick-use2" />
 
 ## API

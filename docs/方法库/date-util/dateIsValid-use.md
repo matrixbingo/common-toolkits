@@ -4,7 +4,7 @@
 
 
 ## 代码演示
-<code src="./dateIsValid-use" />
+<code src="./dateIsValid-use.tsx" />
 
 ### 基础用法
 ```jsx | pure

@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./comparison-use" />
+<code src="./comparison-use.tsx" />
 
 
 ## API

@@ -4,7 +4,7 @@
 
 
 ## 代码演示
-<code src="./currency-use" />
+<code src="./currency-use.tsx" />
 
 ### 基础用法
 

@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./currFormat-use" />
+<code src="./currFormat-use.tsx" />
 
 
 ## API

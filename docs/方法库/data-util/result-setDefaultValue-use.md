@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./result-setDefaultValue-use" />
+<code src="./result-setDefaultValue-use.tsx" />
 
 
 ## API

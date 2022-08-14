@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./diff-use" />
+<code src="./diff-use.tsx" />
 
 
 ## API

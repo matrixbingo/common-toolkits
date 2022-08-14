@@ -6,7 +6,7 @@
 ## 代码演示
 
 ### 基础用法
-<code src="./uuid-use" />
+<code src="./uuid-use.tsx" />
 
 
 ## API
