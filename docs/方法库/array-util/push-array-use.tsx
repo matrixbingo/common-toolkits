@@ -1,20 +1,22 @@
 
 import React, { useState } from 'react';
-import { UrlUtil } from 'common-toolkits';
+import { ArrayUtil } from 'common-toolkits';
+import { useResetState } from 'common-toolkits-hooks';
 import ReactJson from 'react-json-view'
 import { YForm } from 'aem-ui-forms';
 import { CollapsibleCard } from 'aem-ui';
-import { toJSON } from '../base/util';
+import { toFn, toJSON } from '../base/util';
 
-const initialValues = { url: 'http://localhost:8000/index?asas=212&wqwd=54545&id=:id', params: {id: 'a1', name: 'n1'}, options: { separator: ':', omit: true}};
+const initialValues = { arr: [{id: 'a1', name: 'n1'}, {id: 'a2', name: 'n2'}], list: [{id: 'a1', name: {bb: 122} }], customizer: item => item.id === 'a1'  };
 
 const Demo = () => {
   const [form] = YForm.useForm();
   const [ result, setResult ] = useState<any>();
+  const [mode, seTMod, resetMod] = useResetState<'javascript'| 'json'>('json');
 
   const onClick = () => {
-    const { params, url, options } = form.getFieldsValue();
-    const rs = UrlUtil.pathVariable(url, toJSON(params), toJSON(options));
+    const { arr, list, customizer } = form.getFieldsValue();
+    const rs = ArrayUtil.pushArray(toJSON(arr), toJSON(list),  toFn(customizer));
     setResult(rs);
   }
 
@@ -27,9 +29,9 @@ const Demo = () => {
     <CollapsibleCard title="示例" defaultCollapsed={false}>
       <YForm form={form} initialValues={initialValues}>
         {[
-          { label: 'url     (参数1)', type: 'input', name: 'url' },
-          { label: 'params  (参数2)', type: 'codeEditorCard', name: 'params'},
-          { label: 'options (参数3)', type: 'codeEditorCard', name: 'options', rules:[{ required: false} ]},
+          { label: 'arr   (参数1)', type: 'codeEditorCard', name: 'arr'},
+          { label: 'list  (参数2)', type: 'codeEditorCard', name: 'list' },
+          { label: 'customizer (参数3)', type: 'codeEditorCard', name: 'customizer', componentProps: { mode: 'javascript' } },
           {
             type: 'space',
             items: [

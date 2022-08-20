@@ -14,7 +14,7 @@ const Demo = () => {
     setResult(rs);
   }
 
-  return (<CollapsibleCard title="示例" defaultCollapsed={true}>
+  return (<CollapsibleCard title="示例" defaultCollapsed={false}>
     <YForm form={form}>
       {[
         {

@@ -3,6 +3,7 @@ import ObjectUtil from './object-util';
 import DataUtil from './data-util';
 import { ObjectType, Raw } from './types';
 import TransformUtil from './transform-util';
+import pushArray from './array-util/push-array/push-array';
 
 /**
  * TODO 添加说明文档
@@ -158,6 +159,7 @@ const pick = <T extends Raw | ObjectType>( list: T[], customizer: any[] | ((val:
   if (isFunction(customizer)) return list.filter((i) => customizer(i));
   return list;
 };
+
 /**
  * 默认简单类型,默认去重push
  */
@@ -166,6 +168,7 @@ const push = <T extends Raw | ObjectType>( arr: T[], ele: T, customizer?: (item:
   if (includeFun(ele)) arr.push(ele);
   return arr;
 };
+
 
 /**
  * 向指定index添加值
@@ -289,7 +292,7 @@ export default {
   includes, initArray, isNotEmpty,
   mapByKey, merge,
   omit,
-  pick, push, pushByIndex,
+  pick, push, pushByIndex, pushArray,
   remove, removeByIndex: removeByItemIndex, removeObjByKey,
   unique, uniqueSort
 } as const;

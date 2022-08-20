@@ -28,7 +28,7 @@ const Demo = () => {
   }
 
   return (<>
-    <CollapsibleCard title="示例" defaultCollapsed={true}>
+    <CollapsibleCard title="示例" defaultCollapsed={false}>
       <YForm form={form} initialValues={initialValues}>
         {[
           { label: 'arr   (参数1)', type: 'codeEditorCard', name: 'arr'},

@@ -24,7 +24,7 @@ const Demo = () => {
   }
 
   return (<>
-    <CollapsibleCard title="示例" defaultCollapsed={true}>
+    <CollapsibleCard title="示例" defaultCollapsed={false}>
       <YForm form={form} initialValues={initialValues}>
         {[
           { label: 'url  (参数2)', type: 'input', name: 'url', rules:[{ required: false} ] },

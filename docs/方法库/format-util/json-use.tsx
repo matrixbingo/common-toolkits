@@ -57,7 +57,7 @@ const Demo = () => {
     onClick();
   }
 
-  return (<CollapsibleCard title="示例" defaultCollapsed={true}>
+  return (<CollapsibleCard title="示例" defaultCollapsed={false}>
     <YForm form={form} initialValues={initialValues}>
       {[
         { label: 'num   (参数1)', type: 'codeEditorCard', name: 'value' },

@@ -32,7 +32,7 @@ const Demo = () => {
     resetMod();
   }
 
-  return (<CollapsibleCard title="示例" defaultCollapsed={true}>
+  return (<CollapsibleCard title="示例" defaultCollapsed={false}>
     <YForm form={form} initialValues={initialValues}>
       {[
         { label: 'data  (参数1)', type: 'codeEditorCard', name: 'data' },
