@@ -2,7 +2,7 @@ import pushArray from './push-array/push-array';
 import addProps from './add-props/add-props';
 import assign from './assign/assign';
 import filterItemByPath from './filter-item-by-path/filter-item-by-path';
-import filterItemListByPaths from './filter-item-by-path/filter-item-by-paths';
+import filterItemListByPaths from './filter-item-by-path/filter-item-list-by-paths';
 import includes from './includes/includes';
 import initArray from './init-array/init-array';
 import isNotEmpty from './is-not-empty/is-not-empty';
