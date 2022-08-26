@@ -5,9 +5,9 @@ import isJSONObj from 'isjsonobj';
 const pattern = {
   BinENG: /^[a-zA-Z][a-zA-Z0-9_]*$/, // 英文开头
   JSON: /[^,:{}\\[\\]0-9.\-+Eaeflnr-u \n\r\t]/,
-  int: /^(?:0|[1-9]\d*)$/,
-  peInt: /^\+?[1-9]\d*$/, //正整数，不包含0
-  neInt: /^-[1-9]\d*$/, //负整数，不包含0
+  int: /^-?[0-9]\d*$/,
+  peInt: /^\+?[1-9]\d*$/,   //正整数，不包含0
+  neInt: /^-[1-9]\d*$/,     //负整数，不包含0
   float: /^(-?\d+)(\.\d+)?$/,
 };
 
@@ -15,30 +15,30 @@ const pattern = {
    * 是否数字，包含字符串
    */
 const isInt = (value: any): Boolean => {
-    //! isNaN(parseInt(previous))
-    const type = typeof value;
-    return type === 'number' || (type !== 'symbol' && pattern.int.test(value));
-  };
+  //! isNaN(parseInt(previous))
+  const type = typeof value;
+  return type === 'number' || (type !== 'symbol' && pattern.int.test(value));
+};
 
-  /**
-   * 正整数，不包含0
-   */
+/**
+ * 正整数，不包含0
+ */
 const isPeInt = (value: any): Boolean => pattern.peInt.test(value);
 
-  /**
-   * 负整数，不包含0
-   */
+/**
+ * 负整数，不包含0
+ */
 const isNeInt = (value: any): Boolean => pattern.neInt.test(value);
 
 const isFloat = (value: any): Boolean => pattern.float.test(value);
 
 const isJSONFormat = (v: any) => isJSONObj(v) || isJSON(v);
 
-  /**
-   * select, checkbox, radio等转格式
-   * @param value
-   * @returns
-   */
+/**
+ * select, checkbox, radio等转格式
+ * @param value
+ * @returns
+ */
 const parseValue = ( value: string | ReadonlyArray<string> | number ): number | string => {
   if (isNumber(value)) return value;
   if (isString(value) && isInt(value)) return parseInt(value, 10);

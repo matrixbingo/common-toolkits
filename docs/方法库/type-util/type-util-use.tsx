@@ -7,6 +7,7 @@ import { YForm } from 'aem-ui-forms';
 import { CollapsibleCard } from 'aem-ui';
 import { toFn, toJSON } from '../base/util';
 import { useMount } from 'ahooks';
+import { isNumber, isString } from 'lodash';
 
 const initialValues = { value: '1'};
 
@@ -29,8 +30,15 @@ const Demo = () => {
 
   const onClick = () => {
     const { value } = form.getFieldsValue();
-    const rs = TypeUtil[mode]?.(value);
-    setResult(rs);
+    if(isString(value)){
+      let rs = TypeUtil[mode]?.(value);
+      window.console.log('string--------->', value);
+      if(rs){
+        rs = TypeUtil[mode]?.(Number(value));
+        window.console.log('number--------->', Number(value));
+      }
+      setResult(rs);
+    }
   }
 
   const reset = () => {
