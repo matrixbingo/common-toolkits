@@ -1,5 +1,4 @@
 
-import TypeUtil from '../type-util';
 import currency from './currency/currency';
 import json from './json/json';
 import percent from './percent/percent';

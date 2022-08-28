@@ -1,8 +1,8 @@
-import Immutable from 'immutable';
-import { ObjectType } from '../../types';
+import equal from 'fast-deep-equal';
+import deepEqual from 'deep-equal';
 
-const equals = (a: Array<any> | ObjectType, b: Array<any> | ObjectType) => {
-  return Immutable.is(Immutable.fromJS(a), Immutable.fromJS(b));
-};
+const equals = (a: any, b: any) => {
+  return equal(a, b) || deepEqual(a, b);
+}
 
 export default equals;

@@ -1,6 +1,5 @@
 import { isObject, isNumber, isBoolean, isString, isArray } from 'lodash';
-import isJSON from '@stdlib/assert-is-json';
-import isJSONObj from 'isjsonobj';
+import isJSON from './is-json/is-json';
 
 const pattern = {
   BinENG: /^[a-zA-Z][a-zA-Z0-9_]*$/, // 英文开头
@@ -32,7 +31,7 @@ const isNeInt = (value: any): Boolean => pattern.neInt.test(value);
 
 const isFloat = (value: any): Boolean => pattern.float.test(value);
 
-const isJSONFormat = (v: any) => isJSONObj(v) || isJSON(v);
+
 
 /**
  * select, checkbox, radio等转格式
@@ -61,7 +60,7 @@ export default {
   pattern, isInt,
   isPeInt, isNeInt,
   isFloat,
-  isJSON: isJSONFormat, parseValue,
+  isJSON, parseValue,
   isVoid, isFalsy, isValue,
   isColor
 } as const;

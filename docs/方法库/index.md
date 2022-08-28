@@ -16,8 +16,7 @@ import { ArrayUtil, ObjectUtil } from 'common-toolkits';
 
 ## ✨ 依赖
 
-- "@stdlib/assert-is-json": "^0.0.7"
-- "isjsonobj": "^1.0.0"
-- "immutable": "^4.0.0"
+- "deep-equal": "^2.0.5",
+- "fast-deep-equal": "^3.1.3",
 - "lodash": "^4.17.21"
 - "moment": "^2.29.1"

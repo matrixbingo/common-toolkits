@@ -1,11 +1,7 @@
 declare module '*.css';
 declare module '*.less';
 
-declare module 'isjsonobj' {
-    export default function isJSONObj(obj: any): boolean;
-}
-
-declare module '@stdlib/assert-is-json' {
-    export default function isJSON(value: any): boolean;
+declare module 'deep-equal' {
+    export default function deepEqual(a: any, b: any, options?: object): boolean;
 }
 
