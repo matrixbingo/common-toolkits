@@ -1,8 +1,8 @@
-const getLocalStorageData = (storageCode: string, defaultData: Record<string|number, unknown>) => {
+const getLocalStorageData = (storageCode: string, defaultData: Record<string|number, any>) => {
   if (window.localStorage) {
     let result = {};
     const data = window.localStorage.getItem(storageCode);
-    if (data) {
+    if (data && data !== 'undefined') {
       result = JSON.parse(data);
     } else if (defaultData) {
       return defaultData;
@@ -11,10 +11,10 @@ const getLocalStorageData = (storageCode: string, defaultData: Record<string|num
       return result;
     }
   }
-  return null;
+  return defaultData;
 };
 
-const setLocalStorageData = (storageCode: string, storageData: Record<string|number, unknown>) => {
+const setLocalStorageData = (storageCode: string, storageData: Record<string|number, any>) => {
   if (window.localStorage) {
     window.localStorage.removeItem(storageCode);
     window.localStorage.setItem(storageCode, JSON.stringify(storageData));

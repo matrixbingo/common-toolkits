@@ -1,4 +1,4 @@
-import lodash, { isArray, isEmpty, isFunction, isNumber, isObject, isString, set } from 'lodash';
+import { isFunction, isNumber, isString } from 'lodash';
 import { ObjectType, Raw } from '../../types';
 import removeByItemIndex from '../remove-by-item-index/remove-by-item-index';
 

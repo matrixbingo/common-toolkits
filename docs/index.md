@@ -10,11 +10,11 @@ features:
     title: 优质好文
     desc: 编写收集优质好文,助力大家提升前端技术
   - icon: https://gw.alipayobjects.com/zos/bmw-prod/d60657df-0822-4631-9d7c-e7a869c2f21c/k79dmz3q_w126_h126.png
-    title: Hooks中心
+    title: Hooks
     desc: 日常使用Hooks封装
   - icon: https://gw.alipayobjects.com/zos/bmw-prod/d1ee0c6f-5aed-4a45-a507-339a4bfe076c/k7bjsocq_w144_h144.png
-    title: 组件中心
-    desc: 日常使用组件封装
+    title: 方法库
+    desc: 常用方法
 footer: Copyright © 2022 Matrix
 ---
 
