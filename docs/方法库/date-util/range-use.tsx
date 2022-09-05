@@ -38,7 +38,7 @@ const Demo = () => {
   return (<CollapsibleCard title="示例" defaultCollapsed={false}>
     <YForm form={form} initialValues={initialValues}>
       {[
-        { label: '方法名', type: 'select', name: 'select', componentProps: { options, defaultValue: Period.day, onSelect:seTMod } },
+        { label: '参数1', type: 'select', name: 'select', componentProps: { options, defaultValue: Period.day, onSelect:seTMod } },
         {
           type: 'space',
           items: [
