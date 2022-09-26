@@ -2,13 +2,11 @@
 import React, { useState } from 'react';
 import { DateUtil, FormatDate } from 'common-toolkits';
 import { useResetState } from 'common-toolkits-hooks';
-import ReactJson from 'react-json-view'
 import { YForm } from 'aem-ui-forms';
 import { CollapsibleCard } from 'aem-ui';
-import { toFn, toJSON } from '../base/util';
 import { useMount } from 'ahooks';
 
-const initialValues = { value: FormatDate.SECONDS_FORMAT, format: FormatDate.SECONDS_FORMAT };
+const initialValues = { format: FormatDate.SECONDS_FORMAT };
 
 const options = [
   { id: FormatDate.SECONDS_FORMAT, name: FormatDate.SECONDS_FORMAT },
@@ -21,10 +19,15 @@ const Demo = () => {
   const [ result, setResult ] = useState<any>();
   const [mode, seTMod, resetMod] = useResetState<string>(FormatDate.SECONDS_FORMAT);
 
+  useMount(() => {
+    form.setFieldValue('format', FormatDate.SECONDS_FORMAT);
+    const rs = DateUtil.currFormat(FormatDate.SECONDS_FORMAT);
+    setResult(rs);
+  });
 
   const onClick = () => {
-    const { value } = form.getFieldsValue();
-    const rs = DateUtil.currFormat(value);
+    const { format } = form.getFieldsValue();
+    const rs = DateUtil.currFormat(format);
     setResult(rs);
   }
 
@@ -36,13 +39,11 @@ const Demo = () => {
 
   const onSelect = (v) => {
     seTMod(v);
-    form.setFieldsValue({'value': v});
   }
 
   return (<CollapsibleCard title="示例" defaultCollapsed={false}>
     <YForm form={form} initialValues={initialValues}>
       {[
-        { label: 'value (参数1)', type: 'input', name: 'value' },
         { label: 'value (参数1)', type: 'select', name: 'format', componentProps: { options, defaultValue: FormatDate.SECONDS_FORMAT, onSelect } },
         {
           type: 'space',

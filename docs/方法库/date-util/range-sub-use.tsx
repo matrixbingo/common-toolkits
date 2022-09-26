@@ -1,27 +1,29 @@
 
 import React, { useState } from 'react';
-import { DateUtil, FormatDate } from 'common-toolkits';
+import { DateUtil, Period } from 'common-toolkits';
 import { useResetState } from 'common-toolkits-hooks';
+import ReactJson from 'react-json-view'
 import { YForm } from 'aem-ui-forms';
 import { CollapsibleCard } from 'aem-ui';
 
-const initialValues = { beginDate: '2022-01-14 14:58:41', endDate: '2022-01-14 14:58:41' };
+const initialValues = { rang: 0 };
 
 const options = [
-  { id: FormatDate.SECONDS_FORMAT, name: FormatDate.SECONDS_FORMAT },
-  { id: FormatDate.SECONDS, name: FormatDate.SECONDS },
-  { id: FormatDate.DAY_FORMAT, name: FormatDate.DAY_FORMAT },
+  { id: Period.day, name: 'day' },
+  { id: Period.week, name: 'week' },
+  { id: Period.month, name: 'month' },
+  { id: Period.quarter, name: 'quarter' },
+  { id: Period.year, name: 'year' },
 ];
 
 const Demo = () => {
   const [form] = YForm.useForm();
   const [ result, setResult ] = useState<any>();
-  const [mode, seTMod, resetMod] = useResetState<string>(FormatDate.SECONDS_FORMAT);
-
+  const [mode, seTMod, resetMod] = useResetState<Period>(Period.day);
 
   const onClick = () => {
-    const { beginDate, endDate } = form.getFieldsValue();
-    const rs = DateUtil.comparison(beginDate, endDate,'YYYY-MM-DD HH:mm:ss');
+    const { rang } = form.getFieldsValue();
+    const rs = DateUtil.rangeSub(mode, {rang} );
     setResult(rs);
   }
 
@@ -34,8 +36,8 @@ const Demo = () => {
   return (<CollapsibleCard title="示例" defaultCollapsed={false}>
     <YForm form={form} initialValues={initialValues}>
       {[
-        { label: 'beginDate (参数1)', type: 'datePickerFormat', name: 'beginDate', componentProps: { format: 'YYYY-MM-DD HH:mm:ss', showTime: true } },
-        { label: 'endDate   (参数2)', type: 'datePickerFormat', name: 'endDate', componentProps: { format: 'YYYY-MM-DD HH:mm:ss', showTime: true } },
+        { label: '参数1', type: 'select', name: 'select', componentProps: { options, defaultValue: Period.day, onSelect:seTMod } },
+        { label: 'rang (参数2)', type: 'input', name: 'rang' },
         {
           type: 'space',
           items: [
@@ -45,7 +47,7 @@ const Demo = () => {
         },
       ]}
     </YForm>
-    <div>结果:{String(result)}</div>
+    <ReactJson theme="monokai" src={result} />
   </CollapsibleCard>)
 };
 
