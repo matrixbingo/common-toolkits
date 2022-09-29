@@ -6,7 +6,8 @@ import range from './range/range';
 import rangeSub from './range/range-sub';
 import timeStamp from './time-stamp/time-stamp';
 import toMoment from './to-moment/to-moment';
+import workday from './workday/workday';
 
 export default {
-  comparison, currFormat, dateIsValid, diff, range, rangeSub, timeStamp, toMoment
+  comparison, currFormat, dateIsValid, diff, range, rangeSub, timeStamp, toMoment, workday
 } as const;
