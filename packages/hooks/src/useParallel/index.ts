@@ -6,7 +6,7 @@ import { useMemo, useRef } from 'react';
  * @returns
  */
 const useParallel = ( ...loadings: boolean[] ): { readonly loading: boolean; readonly ready: boolean } => {
-  const loading = useMemo(() => loadings.every((_loading) => _loading), [loadings] );
+  const loading = useMemo(() => loadings.some((_loading) => _loading), [loadings] );
   const arr = useMemo(() => Array(loadings.length).fill(0), []);
   const prevRef = useRef<boolean[]>();
   const curRef = useRef<boolean[]>();

@@ -8,7 +8,7 @@ import toArrByPath from './to-arr-by-path/to-arr-by-path';
 import toArrByPathUnique from './to-arr-by-path-unique/to-arr-by-path-unique';
 import toArrByPaths from './to-arr-by-paths/to-arr-by-paths';
 import objectToArray from './object-to-array/object-to-array';
-import objecToValueEnum from './objec-to-value-enum/objec-to-value-enum';
+import objectToValueEnum from './object-to-value-enum/object-to-value-enum';
 import arrayToObject from './array-to-object/array-to-object';
 
 /**
@@ -17,6 +17,6 @@ import arrayToObject from './array-to-object/array-to-object';
 const options = {};
 
 export default {
-  arrayToObject, mapKeys, nullToString, numberArrToStringArr, objectMapKeys, objectToArray, objecToValueEnum, options, select, stringArrToNumberArr, toArrByPath, toArrByPathUnique, toArrByPaths,
+  arrayToObject, mapKeys, nullToString, numberArrToStringArr, objectMapKeys, objectToArray, objectToValueEnum, options, select, stringArrToNumberArr, toArrByPath, toArrByPathUnique, toArrByPaths,
 } as const;
 

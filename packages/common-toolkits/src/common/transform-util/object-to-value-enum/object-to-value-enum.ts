@@ -7,7 +7,7 @@ import { ObjectType } from "../../types";
  * @param customizer
  * @returns
  */
-const objecToValueEnum = (obj: ObjectType, customizer: {key: string; value: string} | ((item: [string, any]) => any) = { key: 'id', value: 'text' }): any => {
+const objectToValueEnum = (obj: ObjectType, customizer: {key: string; value: string} | ((item: [string, any]) => any) = { key: 'id', value: 'text' }): any => {
   return Object.entries(obj).reduce((rs, next) => {
     if (isFunction(customizer)) {
       rs[next[0]] = customizer(next);
@@ -18,4 +18,4 @@ const objecToValueEnum = (obj: ObjectType, customizer: {key: string; value: stri
   }, {} as any);
 };
 
-export default objecToValueEnum;
+export default objectToValueEnum;
