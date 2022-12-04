@@ -10,6 +10,7 @@ import toArrByPaths from './to-arr-by-paths/to-arr-by-paths';
 import objectToArray from './object-to-array/object-to-array';
 import objectToValueEnum from './object-to-value-enum/object-to-value-enum';
 import arrayToObject from './array-to-object/array-to-object';
+import objectToKeyEnum from './object-to-key-enum/object-to-key-enum';
 
 /**
  * TODO 操作
@@ -17,6 +18,6 @@ import arrayToObject from './array-to-object/array-to-object';
 const options = {};
 
 export default {
-  arrayToObject, mapKeys, nullToString, numberArrToStringArr, objectMapKeys, objectToArray, objectToValueEnum, options, select, stringArrToNumberArr, toArrByPath, toArrByPathUnique, toArrByPaths,
+  arrayToObject, mapKeys, nullToString, numberArrToStringArr, objectMapKeys, objectToArray, objectToKeyEnum, objectToValueEnum, options, select, stringArrToNumberArr, toArrByPath, toArrByPathUnique, toArrByPaths,
 } as const;
 
